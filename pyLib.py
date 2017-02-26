@@ -1,3 +1,16 @@
+def loginProc(cursor, dataBase, username, password):
+	cursor.execute("select * from user where username = '" + username + "'")
+	if (cursor.rowcount == 0):
+		print("Login failed!")
+
+	else:
+		for row in cursor.fetchall():	
+			if (row[0] == username):
+				if (row[1] == password):
+					print("Login successful.")
+				else:
+					print("Login failed!")
+
 def descApt(cursor):
     print ("Describing the apt table...")
     cursor.execute("describe apt")
@@ -7,6 +20,12 @@ def descApt(cursor):
 def descRenter(cursor):
     print ("\nDescribing the renter table...")
     cursor.execute("describe renter")
+    for row in cursor.fetchall():
+        print (row)
+
+def descUser(cursor):
+    print ("\nDescribing the user table...")
+    cursor.execute("describe user")
     for row in cursor.fetchall():
         print (row)
 

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import MySQLdb, os, pyLib, sys
+import getpass, MySQLdb, os, pyLib, sys
 
 db = MySQLdb.connect(host = "localhost", user = "root", passwd = "Clloyd20", db = "apartments")
 
@@ -8,6 +8,11 @@ dbCur = db.cursor()
 
 #pyLib.clearScreen(os)
 #pyLib.descApt(dbCur)
+
+#Login procedure
+dbUsr = str(raw_input("Username: "))
+dbPass = getpass.getpass("Password:")
+pyLib.loginProc(dbCur, db, dbUsr, dbPass)
 
 """
 #Inserting new apartment listing
@@ -19,7 +24,6 @@ age = str(raw_input("Enter age of apartment: "))
 loc = '\'' + str(raw_input("Enter location: ")) + '\''
 status = '\'' + str(raw_input("Enter the rental status: ")) + '\''
 pyLib.aptInsert(dbCur, db, rent, bed, bath, style, age, loc, status)
-"""
 
 #Inserting new renter
 userName = '\'' + str(raw_input("Enter username: ")) + '\''
@@ -28,5 +32,6 @@ stySearch = '\'' + str(raw_input("Enter desired style: ")) + '\''
 minRent = str(raw_input("Enter minimum rent range: "))
 maxRent = str(raw_input("Enter maximum rent range: "))
 pyLib.renterInsert(dbCur, db, userName, locSearch, stySearch, minRent, maxRent)
+"""
 
 db.close
