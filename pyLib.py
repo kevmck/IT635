@@ -5,11 +5,10 @@ def loginProc(cursor, dataBase, username, password):
 
 	else:
 		for row in cursor.fetchall():	
-			if (row[0] == username):
-				if (row[1] == password):
-					print("Login successful.")
-				else:
-					print("Login failed!")
+			if (row[1] == password):
+				print("Login successful.")
+			else:
+				print("Login failed!")
 
 def descApt(cursor):
     print ("Describing the apt table...")
