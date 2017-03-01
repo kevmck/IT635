@@ -1,7 +1,8 @@
-def loginProc(cursor, dataBase, username, password):
+def loginProc(cursor, dataBase, sys, username, password):
 	cursor.execute("select * from user where username = '" + username + "'")
 	if (cursor.rowcount == 0):
 		print("Login failed!")
+		sys.exit();
 
 	else:
 		for row in cursor.fetchall():	
@@ -9,6 +10,7 @@ def loginProc(cursor, dataBase, username, password):
 				print("Login successful.")
 			else:
 				print("Login failed!")
+				sys.exit();
 
 def descApt(cursor):
     print ("Describing the apt table...")
@@ -28,6 +30,11 @@ def descUser(cursor):
     for row in cursor.fetchall():
         print (row)
 
+def selAllApt(cursor, dataBase):
+	cursor.execute("SELECT * from apt")
+	for row in cursor.fetchall():
+		print (row)
+
 def aptInsert(cursor, dataBase, r, be, ba, sty, aa, lo, sta):
 	cursor.execute("INSERT INTO apt (aptnumber,rent,bedrooms,bathrooms,style,aptage,location,rentalstatus) \
 					VALUES (NULL," + r + "," + be + "," + ba + "," + sty + "," + aa + "," + lo + "," + sta + ")")
@@ -38,5 +45,18 @@ def renterInsert(cursor, dataBase, uname, loS, styS, minR, maxR):
 					VALUES (" + uname + "," + loS + "," + styS + "," + minR + "," + maxR + ")")
 	dataBase.commit()
 
+def aptStatUpdate(cursor, dataBase, aptNum, currStat):
+	cursor.execute("UPDATE apt SET rentalstatus = '" + currStat + "' WHERE aptnumber = " + aptNum)
+	dataBase.commit() 
+
 def clearScreen(os):
 	os.system('clear')
+
+def menuSys():
+	print ("\nApartments!\n")
+	print ("1.\tAdd a new property... \
+			\n2.\tAdd a new renter... \
+			\n3.\tRun apartment search for renter... \
+			\n4.\tUpdate status of rental... \
+			\n5.\tGenerate rental report... \
+			\n99.\tLogout")
