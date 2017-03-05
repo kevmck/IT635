@@ -1,5 +1,5 @@
-def loginProc(cursor, dataBase, sys, username, password):
-	cursor.execute("select * from user where username = '" + username + "'")
+def loginProc(cursor, dataBase, sys, username, password, role):
+	cursor.execute("select * from user where username = '" + username + "' and role  = '" + role + "'")
 	if (cursor.rowcount == 0):
 		print("Login failed!")
 		sys.exit();
@@ -45,6 +45,11 @@ def renterInsert(cursor, dataBase, uname, loS, styS, minR, maxR):
 					VALUES (" + uname + "," + loS + "," + styS + "," + minR + "," + maxR + ")")
 	dataBase.commit()
 
+def userInsert(cursor, dataBase, uname, pword, role):
+	cursor.execute("INSERT INTO user (username,password,role) \
+					VALUES (" + uname + "," + pword + "," + role + ")")
+	dataBase.commit()
+
 def aptStatUpdate(cursor, dataBase, aptNum, currStat):
 	cursor.execute("UPDATE apt SET rentalstatus = '" + currStat + "' WHERE aptnumber = " + aptNum)
 	dataBase.commit() 
@@ -60,3 +65,17 @@ def menuSys():
 			\n4.\tUpdate status of rental... \
 			\n5.\tGenerate rental report... \
 			\n99.\tLogout")
+
+def menuRenter():
+	print ("\nApartments!\n")
+	print ("1.\tSearch for available apartments... \
+			\n2.\tUpdate location... \
+			\n3.\tUpdate style... \
+			\n99.\tLogout")
+
+def menuLogin():
+	print ("Login to Apartments!\n")
+	print ("1.\tLog in as administrator... \
+			\n2.\tLog in as renter... \
+			\n3.\tFirst time renter? Create a profile... \
+			\n4.\tExit...")

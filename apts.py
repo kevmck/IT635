@@ -7,10 +7,42 @@ db = MySQLdb.connect(host = "localhost", user = "root", passwd = "Clloyd20", db 
 dbCur = db.cursor()
 
 #Login procedure
-print ("Log in to Apartments!")
-dbUsr = str(raw_input("Username: "))
-dbPass = getpass.getpass("Password:")
-pyLib.loginProc(dbCur, db, sys, dbUsr, dbPass)
+pyLib.menuLogin()
+logChoice = str(raw_input ("\nWhat would you like to do? "))
+while logChoice not in ("1", "2", "3", "4"):
+	logChoice = raw_input ("Please enter a valid option: ")
+
+dbRole = None
+
+if logChoice == '1':
+	dbUsr = str(raw_input("\nUsername: "))
+	dbPass = getpass.getpass("Password:")
+	dbRole = "administrator"
+	pyLib.loginProc(dbCur, db, sys, dbUsr, dbPass, dbRole)
+
+elif logChoice == '2':
+	dbUsr = str(raw_input("\nUsername: "))
+	dbPass = getpass.getpass("Password:")
+	dbRole = "renter"
+	pyLib.loginProc(dbCur, db, sys, dbUsr, dbPass, dbRole)
+
+elif logChoice == '3':
+	#Inserting new renter/user		
+	userName = '\'' + str(raw_input("Enter username: ")) + '\''
+	passWord = '\'' + getpass.getpass("Enter password: ") + '\''
+	locSearch = '\'' + str(raw_input("Enter location of interest: ")) + '\''
+	stySearch = '\'' + str(raw_input("Enter desired style: ")) + '\''
+	minRent = str(raw_input("Enter minimum rent range: "))
+	maxRent = str(raw_input("Enter maximum rent range: "))
+	role = "'renter'"
+	#pyLib.renterInsert(dbCur, db, userName, locSearch, stySearch, minRent, maxRent)
+	pyLib.userInsert(dbCur, db, userName, passWord, role)
+	print ("Successfully created your profile, " + userName + ". Please log in as a renter with your new credentials.")
+	sys.exit()
+
+elif logChoice == '4':
+	print ("Exiting...")
+	sys.exit()
 
 #Value that controls menu navigation
 selection = True
