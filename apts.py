@@ -3,7 +3,7 @@
 import getpass, MySQLdb, os, pyLib, sys
 
 #Database login and interface instanciator (cursor)
-db = MySQLdb.connect(host = "localhost", user = "root", passwd = "Clloyd20", db = "apartments")
+db = MySQLdb.connect(host = "localhost", user = "it630", passwd = "password", db = "apartments")
 dbCur = db.cursor()
 
 #Print login menu
@@ -48,6 +48,7 @@ elif logChoice == '3':
 
 elif logChoice == '99':
 	#Exit from login menu
+	db.close()	
 	print ("Exiting...")
 	sys.exit()
 
@@ -108,7 +109,7 @@ if logChoice == '1':
 			print ("Generate rental report\n")
 
 		elif selection == "99":
-			db.close
+			db.close()
 			print("Exiting...")
 			sys.exit()
 
@@ -141,7 +142,7 @@ else:
 			print("Update Style")
 
 		elif selection2 == '99':
-			db.close
+			db.close()
 			print("Exiting...")
 			sys.exit()
 
