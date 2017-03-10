@@ -3,7 +3,7 @@
 import getpass, MySQLdb, os, pyLib, sys
 
 #Database login and interface instanciator (cursor)
-db = MySQLdb.connect(host = "localhost", user = "it630", passwd = "password", db = "apartments")
+db = MySQLdb.connect(host = "localhost", user = "it635", passwd = "password", db = "apartments")
 dbCur = db.cursor()
 
 #Print login menu
