@@ -34,7 +34,8 @@ elif logChoice == '3':
 	#Inserting new renter/user		
 	userName = '\'' + str(raw_input("Enter username: ")) + '\''
 	passWord = '\'' + getpass.getpass("Enter password: ") + '\''
-	locSearch = '\'' + str(raw_input("Enter location of interest: ")) + '\''
+	locSearch = str(raw_input("Enter location of interest: "))
+	locSearch = '\'' + pyLib.testLoc(locSearch) + '\''
 	stySearch = '\'' + str(raw_input("Enter desired style: ")) + '\''
 	minRent = str(raw_input("Enter minimum rent range: "))
 	maxRent = str(raw_input("Enter maximum rent range: "))
@@ -78,7 +79,8 @@ if logChoice == '1':
 				style = '\'' + style + '\''	
 		
 			age = str(raw_input("Enter age of apartment: "))
-			loc = '\'' + str(raw_input("Enter location: ")) + '\''
+			loc = str(raw_input("Enter location: "))
+			loc = '\'' + pyLib.testLoc(loc) + '\''
 			status = '\'' + str(raw_input("Enter the rental status: ")) + '\''
 			pyLib.aptInsert(dbCur, db, rent, bed, bath, style, age, loc, status)
 			print ("Successfully created new apartment!")
