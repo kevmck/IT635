@@ -109,7 +109,21 @@ if logChoice == '1':
 			print("Successfully updated status for apartment #" + aptNum + "; set to (" + currStat + ").")
 
 		elif selection == '5':
-			print ("Generate rental report\n")
+			print ("Report\n")
+			dbCur.execute("select * from apt where rentalstatus = 'r'")			
+			print ("Rented apartments: " + str(dbCur.rowcount) + "\n")			
+			tableOut = from_db_cursor(dbCur)
+			print(tableOut)
+
+			dbCur.execute("select * from apt where rentalstatus = 'v'")			
+			print ("\nVacant apartments: " + str(dbCur.rowcount) + "\n")			
+			tableOut = from_db_cursor(dbCur)
+			print(tableOut)
+			
+			dbCur.execute("select * from apt where rentalstatus = 'u'")			
+			print ("\nUnavailable apartments: " + str(dbCur.rowcount) + "\n")			
+			tableOut = from_db_cursor(dbCur)
+			print(tableOut)
 
 		elif selection == "99":
 			db.close()
