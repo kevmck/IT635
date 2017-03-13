@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import getpass, MySQLdb, os, pyLib, sys
+from prettytable import from_db_cursor
 
 #Database login and interface instanciator (cursor)
 db = MySQLdb.connect(host = "localhost", user = "it635", passwd = "password", db = "apartments")
@@ -135,7 +136,16 @@ else:
 		selection2 = raw_input("\nWhat would you like to do? ")
 
 		if selection2 == '1':
-			print("Apartment Search")
+			print("\nResults:\n")
+			dbCur.execute("select * from renter where renteruname = '" + dbUsr + "'")
+			for row in dbCur.fetchall():
+				userLoc = row[1]
+			dbCur.execute("select * from apt where location = '" + userLoc + "'")
+			if (dbCur.rowcount == 0):
+				print ("No results!")
+			else:
+				tableOut = from_db_cursor(dbCur)
+				print(tableOut)
 
 		elif selection2 == '2':
 			print("Update Location")
