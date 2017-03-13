@@ -50,6 +50,7 @@ elif logChoice == '3':
 
 elif logChoice == '99':
 	#Exit from login menu
+	dbCur.close()
 	db.close()	
 	print ("Exiting...")
 	sys.exit()
@@ -125,6 +126,7 @@ if logChoice == '1':
 			print(tableOut)
 
 		elif selection == "99":
+			dbCur.close()
 			db.close()
 			print("Exiting...")
 			sys.exit()
@@ -167,6 +169,7 @@ else:
 			print("Update Style")
 
 		elif selection2 == '99':
+			dbCur.close()			
 			db.close()
 			print("Exiting...")
 			sys.exit()

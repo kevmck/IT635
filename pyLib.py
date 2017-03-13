@@ -78,11 +78,12 @@ def clearScreen(os):
 def testLoc(locCheck):
 
 	while locCheck.lower() not in \
-	("allendale, alpine, bergenfield, bogota, carlstadt, cliffside park, closter, cresskill, demarest, dumont, east rutherford, edgewater, elmwood park, \
-	emerson, englewood, englewood cliffs, fair lawn, fairview, fort lee, franklin lakes, garfield, glen rock, hackensack, harrington park, \
-	hasbrouck heights, haworth, hillsdale, ho ho kus, leonia, little ferry, lodi, lyndhurst, mahwah, maywood, midland park, montvale, moonachie, \
-	new milford, north arlington, northvale, norwood, oakland, old tappan, oradell, palisades park, paramus, park ridge, ramsey, ridgefield, \
-	ridgefield park, ridgewood, river edge, river vale, rochelle park, rockleigh, rutherford, saddle brook, saddle river, south hackensack, teaneck, \
+	("allendale, alpine, bergenfield, bogota, carlstadt, cliffside park, closter, cresskill, demarest, dumont, \
+	east rutherford, edgewater, elmwood park, emerson, englewood, englewood cliffs, fair lawn, fairview, fort lee, \
+	franklin lakes, garfield, glen rock, hackensack, harrington park, hasbrouck heights, haworth, hillsdale, ho ho kus, \
+	leonia, little ferry, lodi, lyndhurst, mahwah, maywood, midland park, montvale, moonachie, new milford, north arlington, \
+	northvale, norwood, oakland, old tappan, oradell, palisades park, paramus, park ridge, ramsey, ridgefield, ridgefield park, \
+	ridgewood, river edge, river vale, rochelle park, rockleigh, rutherford, saddle brook, saddle river, south hackensack, teaneck, \
 	tenafly, teterboro, upper saddle river, waldwick, wallington, washington township, westwood, woodcliff lake, wood-ridge, wyckoff"):
 		locCheck = raw_input("Enter valid location inside Bergen county: ")
 
