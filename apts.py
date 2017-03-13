@@ -100,6 +100,19 @@ if logChoice == '1':
 
 		elif selection == '3':
 			print ("Apartment search for renter\n")
+			renterName = str(raw_input("Enter the renter's username: "))
+			dbCur.execute("select * from renter where renteruname = '" + renterName + "'")
+			if (dbCur.rowcount == 0):
+				print ("User " + renterName + " does not exist. No results to show.")
+			else:
+				for row in dbCur.fetchall():
+					userLoc = row[1]
+				dbCur.execute("select * from apt where location = '" + userLoc + "'")
+				if (dbCur.rowcount == 0):
+					print ("No results!")
+				else:
+					tableOut = from_db_cursor(dbCur)
+					print(tableOut)
 		
 		elif selection == '4':
 			#Updating rental status of an apartment

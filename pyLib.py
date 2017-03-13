@@ -113,4 +113,4 @@ def menuLogin():
 	print ("1.\tLog in as administrator... \
 			\n2.\tLog in as renter... \
 			\n3.\tFirst time renter? Create a profile... \
-			\n4.\tExit...")
+			\n99.\tExit...")
