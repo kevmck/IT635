@@ -106,7 +106,6 @@ if logChoice == '1':
 			aptNum = raw_input("Enter the apartment number to update: ")
 			currStat = raw_input("Enter the current status of the apartment - (r)ented or (v)acant: ")
 			pyLib.aptStatUpdate(dbCur, db, aptNum, currStat)			
-			print("Successfully updated status for apartment #" + aptNum + "; set to (" + currStat + ").")
 
 		elif selection == '5':
 			print ("Report\n")

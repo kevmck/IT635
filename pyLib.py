@@ -62,8 +62,13 @@ def userInsert(cursor, dataBase, uname, pword, role):
 
 #Update status of an apartment
 def aptStatUpdate(cursor, dataBase, aptNum, currStat):
-	cursor.execute("UPDATE apt SET rentalstatus = '" + currStat + "' WHERE aptnumber = " + aptNum)
-	dataBase.commit() 
+	cursor.execute("SELECT * from apt where aptnumber = " + aptNum)
+	if (cursor.rowcount == 0):
+		print("Apartment does not exist; no changes made.")	
+	else:
+		cursor.execute("UPDATE apt SET rentalstatus = '" + currStat + "' WHERE aptnumber = " + aptNum)
+		dataBase.commit()
+		print("Successfully updated status for apartment #" + aptNum + "; set to (" + currStat + ").")
 
 #Clear screen
 def clearScreen(os):
