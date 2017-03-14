@@ -41,9 +41,13 @@ elif logChoice == '3':
 	minRent = str(raw_input("Enter minimum rent range: "))
 	maxRent = str(raw_input("Enter maximum rent range: "))
 	role = "'renter'"
-	pyLib.renterInsert(dbCur, db, userName, locSearch, stySearch, minRent, maxRent)
-	pyLib.userInsert(dbCur, db, userName, passWord, role)
-	print ("Successfully created your profile, " + userName + ". Please log in as a renter with your new credentials.")
+	dbCur.execute("SELECT * FROM renter  WHERE renteruname = " + userName)
+	if (dbCur.rowcount != 0):
+		print ("User/renter name already exists; try again.")
+	else:
+		pyLib.renterInsert(dbCur, db, userName, locSearch, stySearch, minRent, maxRent)
+		pyLib.userInsert(dbCur, db, userName, passWord, role)
+		print ("Successfully created your profile, " + userName + ". Please log in as a renter with your new credentials.")
 	print ("Press any key to continue...")
 	raw_input()	
 	sys.exit()
@@ -92,8 +96,15 @@ if logChoice == '1':
 			stySearch = '\'' + pyLib.testStyle(stySearch) + '\''
 			minRent = str(raw_input("Enter minimum rent range: "))
 			maxRent = str(raw_input("Enter maximum rent range: "))
-			pyLib.renterInsert(dbCur, db, userName, locSearch, stySearch, minRent, maxRent)
-			print ("Successfully created profile for " + userName + "!")
+			passWord = "'password'"
+			role = "'renter'"
+			dbCur.execute("SELECT * FROM renter  WHERE renteruname = " + userName)
+			if (dbCur.rowcount != 0):
+				print ("User/renter name already exists; try again.")
+			else:
+				pyLib.renterInsert(dbCur, db, userName, locSearch, stySearch, minRent, maxRent)
+				pyLib.userInsert(dbCur, db, userName, passWord, role)
+				print ("Successfully created profile for " + userName + "; they can sign in with the default password (password).")
 
 		elif selection == '3':
 			print ("Apartment search for renter\n")

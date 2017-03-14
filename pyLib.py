@@ -60,6 +60,7 @@ def userInsert(cursor, dataBase, uname, pword, role):
 					VALUES (" + uname + "," + pword + "," + role + ")")
 	dataBase.commit()
 
+
 #Update status of an apartment
 def aptStatUpdate(cursor, dataBase, aptNum, currStat):
 	cursor.execute("SELECT * from apt where aptnumber = " + aptNum)
