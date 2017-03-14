@@ -73,13 +73,8 @@ if logChoice == '1':
 			rent = str(raw_input("Enter rent: "))
 			bed = str(raw_input("Enter number of bedrooms: "))
 			bath = str(raw_input("Enter number of bathrooms: "))
-		
-			style = '\'' + str(raw_input("Enter style - choose from contemporary, cottage, mediterranean, traditional, rustic or retro: ")) + '\''
-			while style not in ("contemporary", "cottage", "mediterranean", "traditional", "rustic", "retro"):
-				style = raw_input("Please enter a valid style: ")
-			else:
-				style = '\'' + style + '\''	
-		
+			style = str(raw_input("Enter style - choose from Contemporary, Cottage, Mediterranean, Traditional, Rustic or Retro: "))
+			style = '\'' + pyLib.testStyle(style) + '\''
 			age = str(raw_input("Enter age of apartment: "))
 			loc = str(raw_input("Enter location: "))
 			loc = '\'' + pyLib.testLoc(loc) + '\''
@@ -91,8 +86,10 @@ if logChoice == '1':
 			#Inserting new renter
 			print ("Insert new renter\n")		
 			userName = '\'' + str(raw_input("Enter username: ")) + '\''
-			locSearch = '\'' + str(raw_input("Enter location of interest: ")) + '\''
-			stySearch = '\'' + str(raw_input("Enter desired style: ")) + '\''
+			locSearch = str(raw_input("Enter location of interest: "))
+			locSearch = '\'' + pyLib.testLoc(locSearch) + '\''
+			stySearch = str(raw_input("Enter style - choose from Contemporary, Cottage, Mediterranean, Traditional, Rustic or Retro: "))
+			stySearch = '\'' + pyLib.testStyle(stySearch) + '\''
 			minRent = str(raw_input("Enter minimum rent range: "))
 			maxRent = str(raw_input("Enter maximum rent range: "))
 			pyLib.renterInsert(dbCur, db, userName, locSearch, stySearch, minRent, maxRent)

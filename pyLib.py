@@ -74,9 +74,8 @@ def aptStatUpdate(cursor, dataBase, aptNum, currStat):
 def clearScreen(os):
 	os.system('clear')
 
-#Check that the apartment being entered for searching/listing are in Bergen county (to limit 
+#Check that the apartment being entered for searching/listing are in Bergen county (to limit scope)
 def testLoc(locCheck):
-
 	while locCheck.lower() not in \
 	("allendale, alpine, bergenfield, bogota, carlstadt, cliffside park, closter, cresskill, demarest, dumont, \
 	east rutherford, edgewater, elmwood park, emerson, englewood, englewood cliffs, fair lawn, fairview, fort lee, \
@@ -88,6 +87,13 @@ def testLoc(locCheck):
 		locCheck = raw_input("Enter valid location inside Bergen county: ")
 
 	return locCheck
+
+#Check that apartment style is valid
+def testStyle(styleCheck):
+	while styleCheck.lower() not in ("contemporary", "cottage", "mediterranean", "traditional", "rustic", "retro"):
+		styleCheck = raw_input("Please enter a valid style - Contemporary, Cottage, Mediterranean, Traditional, Rustic, Retro: ")
+	
+	return styleCheck
 
 #Administrator's menu
 def menuSys():
