@@ -71,6 +71,25 @@ def aptStatUpdate(cursor, dataBase, aptNum, currStat):
 		dataBase.commit()
 		print("Successfully updated status for apartment #" + aptNum + "; set to (" + currStat + ").")
 
+#Update renter's desired location
+def usrLocationUpdate(cursor, dataBase, dbUsr, newLoc):
+	cursor.execute("UPDATE renter SET locationsearch = " + newLoc + " WHERE renteruname = '" + dbUsr + "'")
+	dataBase.commit()
+	print("Successfully updated your desired location to " + newLoc + ".")
+
+#Update renter's desired style
+def usrStyleUpdate(cursor, dataBase, dbUsr, newStyle):
+	cursor.execute("UPDATE renter SET stylesearch = " + newStyle + " WHERE renteruname = '" + dbUsr + "'")
+	dataBase.commit()
+	print("Successfully updated your desired style to " + newStyle + ".")
+
+#Update renter's desired rent range
+def usrRentUpdate(cursor, dataBase, dbUsr, minRent, maxRent):
+	cursor.execute("UPDATE renter SET minrent = '" + minRent + "' WHERE renteruname = '" + dbUsr + "'")
+	cursor.execute("UPDATE renter SET maxrent = '" + maxRent + "' WHERE renteruname = '" + dbUsr + "'")
+	dataBase.commit()
+	print("Successfully updated desired rent values. New rent range: $" + minRent + "-$" + maxRent)
+
 #Clear screen
 def clearScreen(os):
 	os.system('clear')
@@ -112,6 +131,7 @@ def menuRenter():
 	print ("1.\tSearch for available apartments... \
 			\n2.\tUpdate location... \
 			\n3.\tUpdate style... \
+			\n4.\tUpdate minimum/maximum rent... \
 			\n99.\tLogout")
 
 #Login menu

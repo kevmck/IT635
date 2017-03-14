@@ -37,7 +37,8 @@ elif logChoice == '3':
 	passWord = '\'' + getpass.getpass("Enter password: ") + '\''
 	locSearch = str(raw_input("Enter location of interest: "))
 	locSearch = '\'' + pyLib.testLoc(locSearch) + '\''
-	stySearch = '\'' + str(raw_input("Enter desired style: ")) + '\''
+	stySearch = str(raw_input("Enter style - choose from Contemporary, Cottage, Mediterranean, Traditional, Rustic or Retro: "))
+	stySearch = '\'' + pyLib.testStyle(stySearch) + '\''	
 	minRent = str(raw_input("Enter minimum rent range: "))
 	maxRent = str(raw_input("Enter maximum rent range: "))
 	role = "'renter'"
@@ -126,10 +127,11 @@ if logChoice == '1':
 			#Updating rental status of an apartment
 			print ("Update status of rental\n")
 			aptNum = raw_input("Enter the apartment number to update: ")
-			currStat = raw_input("Enter the current status of the apartment - (r)ented or (v)acant: ")
+			currStat = raw_input("Enter the current status of the apartment - (r)ented, (v)acant or (u)navailable: ")
 			pyLib.aptStatUpdate(dbCur, db, aptNum, currStat)			
 
 		elif selection == '5':
+			#Report generation
 			print ("Report\n")
 			dbCur.execute("select * from apt where rentalstatus = 'r'")			
 			print ("Rented apartments: " + str(dbCur.rowcount) + "\n")			
@@ -185,9 +187,21 @@ else:
 
 		elif selection2 == '2':
 			print("Update Location")
+			newLoc = str(raw_input("Enter location of interest: "))
+			newLoc = '\'' + pyLib.testLoc(newLoc) + '\''
+			pyLib.usrLocationUpdate(dbCur, db, dbUsr, newLoc)
 
 		elif selection2 == '3':
 			print("Update Style")
+			newStyle = str(raw_input("Enter style - choose from Contemporary, Cottage, Mediterranean, Traditional, Rustic or Retro: "))
+			newStyle = '\'' + pyLib.testStyle(newStyle) + '\''
+			pyLib.usrStyleUpdate(dbCur, db, dbUsr, newStyle)
+		
+		elif selection2 == '4':
+			print("Update Rent Values")
+			minRent = str(raw_input("Enter minimum rent value: "))
+			maxRent = str(raw_input("Enter maximum rent value: "))
+			pyLib.usrRentUpdate(dbCur, db, dbUsr, minRent, maxRent)
 
 		elif selection2 == '99':
 			dbCur.close()			
