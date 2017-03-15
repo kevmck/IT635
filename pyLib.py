@@ -114,6 +114,13 @@ def testStyle(styleCheck):
 		styleCheck = raw_input("Please enter a valid style - Contemporary, Cottage, Mediterranean, Traditional, Rustic, Retro: ")
 	
 	return styleCheck
+	
+#Check that numbers input are valid
+def testNum(re, num):
+	while not re.match("^[0-9]*$", num):
+		num = raw_input("Enter valid number: ")
+	else:
+		return str(num)
 
 #Administrator's menu
 def menuSys():

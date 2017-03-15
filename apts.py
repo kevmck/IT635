@@ -215,6 +215,3 @@ else:
 		elif (len(selection2) == 0):
 			selection = True
 			print("Try again!")
-			
-
-#input()
