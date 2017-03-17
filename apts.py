@@ -89,7 +89,7 @@ if logChoice == '1':
 			age = pyLib.testNum(re, age)
 			loc = str(raw_input("Enter location: "))
 			loc = '\'' + pyLib.testLoc(loc) + '\''
-			status = '\'' + str(raw_input("Enter the rental status: ")) + '\''
+			status = '\'' + str(raw_input("Enter the rental status of the apartment - (r)ented, or (v)acant: ")) + '\''
 			pyLib.aptInsert(dbCur, db, rent, bed, bath, style, age, loc, status)
 			print ("Successfully created new apartment!")
 
@@ -137,7 +137,7 @@ if logChoice == '1':
 			print ("Update status of rental\n")
 			aptNum = raw_input("Enter the apartment number to update: ")
 			aptNum = pyLib.testNum(re, aptNum)
-			currStat = raw_input("Enter the current status of the apartment - (r)ented, (v)acant or (u)navailable: ")
+			currStat = raw_input("Enter the current status of the apartment - (r)ented, or (v)acant: ")
 			pyLib.aptStatUpdate(dbCur, db, aptNum, currStat)			
 
 		elif selection == '5':
@@ -150,11 +150,6 @@ if logChoice == '1':
 
 			dbCur.execute("select * from apt where rentalstatus = 'v'")			
 			print ("\nVacant apartments: " + str(dbCur.rowcount) + "\n")			
-			tableOut = from_db_cursor(dbCur)
-			print(tableOut)
-			
-			dbCur.execute("select * from apt where rentalstatus = 'u'")			
-			print ("\nUnavailable apartments: " + str(dbCur.rowcount) + "\n")			
 			tableOut = from_db_cursor(dbCur)
 			print(tableOut)
 
