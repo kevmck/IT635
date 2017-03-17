@@ -117,10 +117,9 @@ def testStyle(styleCheck):
 	
 #Check that numbers input are valid
 def testNum(re, num):
-	while not re.match("^[0-9]*$", num):
+	while not re.match("^[0-9]*$", num) or num == "":
 		num = raw_input("Enter valid number: ")
-	else:
-		return str(num)
+	return num
 
 #Administrator's menu
 def menuSys():

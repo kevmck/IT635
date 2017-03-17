@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import getpass, MySQLdb, os, pyLib, sys
+import getpass, MySQLdb, os, pyLib, re, sys
 from prettytable import from_db_cursor
 
 #Database login and interface instanciator (cursor)
@@ -40,7 +40,9 @@ elif logChoice == '3':
 	stySearch = str(raw_input("Enter style - choose from Contemporary, Cottage, Mediterranean, Traditional, Rustic or Retro: "))
 	stySearch = '\'' + pyLib.testStyle(stySearch) + '\''	
 	minRent = str(raw_input("Enter minimum rent range: "))
+	minRent = pyLib.testNum(re, minRent)
 	maxRent = str(raw_input("Enter maximum rent range: "))
+	maxRent = pyLib.testNum(re, maxRent)
 	role = "'renter'"
 	dbCur.execute("SELECT * FROM renter  WHERE renteruname = " + userName)
 	if (dbCur.rowcount != 0):
@@ -76,11 +78,15 @@ if logChoice == '1':
 			#Inserting new apartment listing
 			print ("Insert new apartment\n")		
 			rent = str(raw_input("Enter rent: "))
+			rent = pyLib.testNum(re, rent)
 			bed = str(raw_input("Enter number of bedrooms: "))
+			bed = pyLib.testNum(re, bed)
 			bath = str(raw_input("Enter number of bathrooms: "))
+			bath = pyLib.testNum(re, bath)
 			style = str(raw_input("Enter style - choose from Contemporary, Cottage, Mediterranean, Traditional, Rustic or Retro: "))
 			style = '\'' + pyLib.testStyle(style) + '\''
 			age = str(raw_input("Enter age of apartment: "))
+			age = pyLib.testNum(re, age)
 			loc = str(raw_input("Enter location: "))
 			loc = '\'' + pyLib.testLoc(loc) + '\''
 			status = '\'' + str(raw_input("Enter the rental status: ")) + '\''
@@ -96,7 +102,9 @@ if logChoice == '1':
 			stySearch = str(raw_input("Enter style - choose from Contemporary, Cottage, Mediterranean, Traditional, Rustic or Retro: "))
 			stySearch = '\'' + pyLib.testStyle(stySearch) + '\''
 			minRent = str(raw_input("Enter minimum rent range: "))
+			minRent = pyLib.testNum(re, minRent)
 			maxRent = str(raw_input("Enter maximum rent range: "))
+			maxRent = pyLib.testNum(re, maxRent)
 			passWord = "'password'"
 			role = "'renter'"
 			dbCur.execute("SELECT * FROM renter  WHERE renteruname = " + userName)
@@ -108,6 +116,7 @@ if logChoice == '1':
 				print ("Successfully created profile for " + userName + "; they can sign in with the default password (password).")
 
 		elif selection == '3':
+			#Performing an apartment search for a renter
 			print ("Apartment search for renter\n")
 			renterName = str(raw_input("Enter the renter's username: "))
 			dbCur.execute("select * from renter where renteruname = '" + renterName + "'")
@@ -127,6 +136,7 @@ if logChoice == '1':
 			#Updating rental status of an apartment
 			print ("Update status of rental\n")
 			aptNum = raw_input("Enter the apartment number to update: ")
+			aptNum = pyLib.testNum(re, aptNum)
 			currStat = raw_input("Enter the current status of the apartment - (r)ented, (v)acant or (u)navailable: ")
 			pyLib.aptStatUpdate(dbCur, db, aptNum, currStat)			
 
@@ -174,6 +184,7 @@ else:
 		selection2 = raw_input("\nWhat would you like to do? ")
 
 		if selection2 == '1':
+			#Apartment search based on renter's profile
 			print("\nResults:\n")
 			dbCur.execute("select * from renter where renteruname = '" + dbUsr + "'")
 			for row in dbCur.fetchall():
@@ -198,9 +209,12 @@ else:
 			pyLib.usrStyleUpdate(dbCur, db, dbUsr, newStyle)
 		
 		elif selection2 == '4':
+			#Updating rent range for renter
 			print("Update Rent Values")
 			minRent = str(raw_input("Enter minimum rent value: "))
+			minRent = pyLib.testNum(re, minRent)
 			maxRent = str(raw_input("Enter maximum rent value: "))
+			maxRent = pyLib.testNum(re, maxRent)
 			pyLib.usrRentUpdate(dbCur, db, dbUsr, minRent, maxRent)
 
 		elif selection2 == '99':
