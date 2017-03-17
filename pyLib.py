@@ -97,13 +97,14 @@ def clearScreen(os):
 #Check that the apartment being entered for searching/listing are in Bergen county (to limit scope)
 def testLoc(locCheck):
 	while locCheck.lower() not in \
-	("allendale, alpine, bergenfield, bogota, carlstadt, cliffside park, closter, cresskill, demarest, dumont, \
-	east rutherford, edgewater, elmwood park, emerson, englewood, englewood cliffs, fair lawn, fairview, fort lee, \
-	franklin lakes, garfield, glen rock, hackensack, harrington park, hasbrouck heights, haworth, hillsdale, ho ho kus, \
-	leonia, little ferry, lodi, lyndhurst, mahwah, maywood, midland park, montvale, moonachie, new milford, north arlington, \
-	northvale, norwood, oakland, old tappan, oradell, palisades park, paramus, park ridge, ramsey, ridgefield, ridgefield park, \
-	ridgewood, river edge, river vale, rochelle park, rockleigh, rutherford, saddle brook, saddle river, south hackensack, teaneck, \
-	tenafly, teterboro, upper saddle river, waldwick, wallington, washington township, westwood, woodcliff lake, wood-ridge, wyckoff"):
+	("Allendale", "Alpine", "Bergenfield", "Bogota", "Carlstadt", "Cliffside Park", "Closter", "Cresskill", "Demarest", \
+	"Dumont", "East Rutherford", "Edgewater", "Elmwood Park", "Emerson", "Englewood", "Englewood Cliffs", "Fair Lawn", \
+	"Fairview", "Fort Lee", "Franklin Lakes", "Garfield", "Glen Rock", "Hackensack", "Harrington Park", "Hasbrouck Heights", \
+	"Haworth", "Hillsdale", "Ho Ho Kus", "Leonia", "Little Ferry", "Lodi", "Lyndhurst", "Mahwah", "Maywood", "Midland Park", \
+	"Montvale", "Moonachie", "New Milford", "North Arlington", "Northvale", "Norwood", "Oakland", "Old Tappan", "Oradell", \
+	"Palisades Park", "Paramus", "Park Ridge", "Ramsey", "Ridgefield", "Ridgefield Park", "Ridgewood", "River Edge", "River Vale", \
+	"Rochelle Park", "Rockleigh", "Rutherford", "Saddle Brook", "Saddle River", "South Hackensack", "Teaneck", "Tenafly", "Teterboro", \
+	"Upper Saddle River", "Waldwick", "Wallington", "Washington Township", "Westwood", "Woodcliff Lake", "Wood-Ridge", "Wyckoff"):
 		locCheck = raw_input("Enter valid location inside Bergen county: ")
 
 	return locCheck
