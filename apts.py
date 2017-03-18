@@ -56,7 +56,7 @@ elif logChoice == '3':
 	sys.exit()
 
 elif logChoice == '99':
-	#Exit from login menu
+	#Cleanup and exit from login menu
 	dbCur.close()
 	db.close()	
 	print ("Exiting...")
@@ -125,11 +125,18 @@ if logChoice == '1':
 				print ("User " + renterName + " does not exist. No results to show.")
 			else:
 				for row in dbCur.fetchall():
-					userLoc = row[1]
-				dbCur.execute("select * from apt where location = '" + userLoc + "'")
+					fetchLoc = row[1]
+					fetchStyle = row[2]
+					fetchMinRent = str(row[3])
+					fetchMaxRent = str(row[4])
+					
+				dbCur.execute("select * from apt where location = '" + fetchLoc + "' and style = '" + fetchStyle + \
+									"' and rent >= " + fetchMinRent + " and rent <= " + fetchMaxRent)
+									
 				if (dbCur.rowcount == 0):
 					print ("No results!")
 				else:
+					print("\n" + str(dbCur.rowcount) + " matching apartment(s) found:\n")
 					tableOut = from_db_cursor(dbCur)
 					print(tableOut)
 		
@@ -155,6 +162,7 @@ if logChoice == '1':
 			print(tableOut)
 
 		elif selection == "99":
+			#Cleanup and exit
 			dbCur.close()
 			db.close()
 			print("Exiting...")
@@ -183,23 +191,33 @@ else:
 		if selection2 == '1':
 			#Apartment search based on renter's profile
 			print("\nResults:\n")
+		
 			dbCur.execute("select * from renter where renteruname = '" + dbUsr + "'")
 			for row in dbCur.fetchall():
-				userLoc = row[1]
-			dbCur.execute("select * from apt where location = '" + userLoc + "'")
+				fetchLoc = row[1]
+				fetchStyle = row[2]
+				fetchMinRent = str(row[3])
+				fetchMaxRent = str(row[4])
+				
+			dbCur.execute("select * from apt where location = '" + fetchLoc + "' and style = '" + fetchStyle + \
+								"' and rent >= " + fetchMinRent + " and rent <= " + fetchMaxRent)					
+			
 			if (dbCur.rowcount == 0):
 				print ("No results!")
 			else:
+				print("\n" + str(dbCur.rowcount) + " matching apartment(s) found:\n")
 				tableOut = from_db_cursor(dbCur)
 				print(tableOut)
-
+					
 		elif selection2 == '2':
+			#Updating renter's preferred loation
 			print("Update Location")
 			newLoc = str(raw_input("Enter location of interest: "))
 			newLoc = '\'' + pyLib.testLoc(newLoc) + '\''
 			pyLib.usrLocationUpdate(dbCur, db, dbUsr, newLoc)
 
 		elif selection2 == '3':
+			#Updating renter's preferred apartment style
 			print("Update Style")
 			newStyle = str(raw_input("Enter style - choose from Contemporary, Cottage, Mediterranean, Traditional, Rustic or Retro: "))
 			newStyle = '\'' + pyLib.testStyle(newStyle) + '\''
@@ -215,6 +233,7 @@ else:
 			pyLib.usrRentUpdate(dbCur, db, dbUsr, minRent, maxRent)
 
 		elif selection2 == '99':
+			#Cleanup and exit
 			dbCur.close()			
 			db.close()
 			print("Exiting...")
