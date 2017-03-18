@@ -124,7 +124,7 @@ def testNum(re, num):
 
 #Administrator's menu
 def menuSys():
-	print ("\nApartments!\n")
+	#print ("\nApartments!\n")
 	print ("1.\tAdd a new property... \
 			\n2.\tAdd a new renter... \
 			\n3.\tRun apartment search for renter... \
@@ -134,8 +134,8 @@ def menuSys():
 
 #Renter's menu
 def menuRenter():
-	print ("\nApartments!\n")
-	print ("1.\tSearch for available apartments... \
+	#print ("\nApartments!\n")
+	print (\n"1.\tSearch for available apartments... \
 			\n2.\tUpdate location... \
 			\n3.\tUpdate style... \
 			\n4.\tUpdate minimum/maximum rent... \
@@ -144,7 +144,20 @@ def menuRenter():
 #Login menu
 def menuLogin():
 	print ("Login to Apartments!\n")
-	print ("1.\tLog in as administrator... \
+	print (\n"1.\tLog in as administrator... \
 			\n2.\tLog in as renter... \
 			\n3.\tFirst time renter? Create a profile... \
 			\n99.\tExit...")
+			
+#Menu banner
+def banner():
+	print(str("                            _                        _       _  "))
+	print(str("     /\                    | |                      | |     | | "))
+	print(str("    /  \   _ __   __ _ _ __| |_ _ __ ___   ___ _ __ | |_ ___| | "))
+	print(str("   / /\ \ | '_ \ / _` | '__| __| '_ ` _ \ / _ \ '_ \| __/ __| | "))
+	print(str("  / ____ \| |_) | (_| | |  | |_| | | | | |  __/ | | | |_\__ \_| "))
+	print(str(" /_/    \_\ .__/ \__,_|_|   \__|_| |_| |_|\___|_| |_|\__|___(_) "))
+	print(str("          | |                                                   "))
+	print(str("          |_|                                                   "))
+	print(str("                                                                "))
+	print(str("                           BERGEN COUNTY                        "))

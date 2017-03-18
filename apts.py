@@ -67,6 +67,7 @@ if logChoice == '1':
 	selection = True
 
 	#Print menu
+	pyLib.banner()
 	pyLib.menuSys()
 
 	#Menu loop
@@ -170,7 +171,8 @@ else:
 	#Value that controls menu navigation
 	selection2 = True
 
-	#Print menu
+	#Print menu/banner
+	pyLib.banner()
 	pyLib.menuRenter()
 
 	#Menu loop
