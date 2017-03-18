@@ -71,6 +71,7 @@ if logChoice == '1':
 	os.system("clear")
 	pyLib.banner()
 	pyLib.menuSys()
+	print("\n\nWelcome to Apartments!, " + dbUsr + ".")
 
 	#Menu loop
 	while selection:
@@ -171,6 +172,7 @@ if logChoice == '1':
 		elif selection.lower() == 'menu':
 			#Display menu
 			os.system("clear")
+			pyLib.banner()
 			pyLib.menuSys()
 			
 		elif selection == "99":
@@ -181,11 +183,11 @@ if logChoice == '1':
 			sys.exit()
 
 		elif selection != "":
-			print("\nPlease enter a valid option.")
+			print("\nPlease enter a valid option. Type (menu) to display options:")
 
 		elif (len(selection) == 0):
 			selection = True
-			print("Try again!")
+			print("Try again! Type (menu) to display options:")
 
 else:
 	#Value that controls menu navigation
@@ -195,6 +197,7 @@ else:
 	os.system("clear")
 	pyLib.banner()
 	pyLib.menuRenter()
+	print("\n\nWelcome to Apartments!, " + dbUsr + ".")
 
 	#Menu loop
 	while selection2:
@@ -226,7 +229,7 @@ else:
 		elif selection2 == '2':
 			#Updating renter's preferred loation
 			os.system("clear")
-			print("Update Location")
+			print("Update Location\n")
 			newLoc = str(raw_input("Enter location of interest: "))
 			newLoc = '\'' + pyLib.testLoc(newLoc) + '\''
 			pyLib.usrLocationUpdate(dbCur, db, dbUsr, newLoc)
@@ -234,7 +237,7 @@ else:
 		elif selection2 == '3':
 			#Updating renter's preferred apartment style
 			os.system("clear")
-			print("Update Style")
+			print("Update Style\n")
 			newStyle = str(raw_input("Enter style - choose from Contemporary, Cottage, Mediterranean, Traditional, Rustic or Retro: "))
 			newStyle = '\'' + pyLib.testStyle(newStyle) + '\''
 			pyLib.usrStyleUpdate(dbCur, db, dbUsr, newStyle)
@@ -242,7 +245,7 @@ else:
 		elif selection2 == '4':
 			#Updating rent range for renter
 			os.system("clear")
-			print("Update Rent Values")
+			print("Update Rent Values\n")
 			minRent = str(raw_input("Enter minimum rent value: "))
 			minRent = pyLib.testNum(re, minRent)
 			maxRent = str(raw_input("Enter maximum rent value: "))
@@ -252,6 +255,7 @@ else:
 		elif selection2.lower() == 'menu':
 			#Display menu
 			os.system("clear")
+			pyLib.banner()
 			pyLib.menuRenter()
 
 		elif selection2 == '99':
@@ -262,8 +266,8 @@ else:
 			sys.exit()
 
 		elif selection2 != "":
-			print("\nPlease enter a valid option.")
+			print("\nPlease enter a valid option. Type (menu) to display options:")
 
 		elif (len(selection2) == 0):
 			selection = True
-			print("Try again!")
+			print("Try again! Type (menu) to display options:")
