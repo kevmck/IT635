@@ -8,6 +8,7 @@ db = MySQLdb.connect(host = "localhost", user = "it635", passwd = "password", db
 dbCur = db.cursor()
 
 #Print login menu
+os.system("clear")
 pyLib.menuLogin()
 
 #Login procedure
@@ -67,16 +68,18 @@ if logChoice == '1':
 	selection = True
 
 	#Print menu
+	os.system("clear")
 	pyLib.banner()
 	pyLib.menuSys()
 
 	#Menu loop
 	while selection:
 
-		selection = raw_input("\nWhat would you like to do? ")
+		selection = raw_input("\nWhat would you like to do? Type (menu) to display options: ")
 	
 		if selection == '1':
 			#Inserting new apartment listing
+			os.system("clear")
 			print ("Insert new apartment\n")		
 			rent = str(raw_input("Enter rent: "))
 			rent = pyLib.testNum(re, rent)
@@ -96,6 +99,7 @@ if logChoice == '1':
 
 		elif selection == '2':
 			#Inserting new renter
+			os.system("clear")
 			print ("Insert new renter\n")		
 			userName = '\'' + str(raw_input("Enter username: ")) + '\''
 			locSearch = str(raw_input("Enter location of interest: "))
@@ -118,6 +122,7 @@ if logChoice == '1':
 
 		elif selection == '3':
 			#Performing an apartment search for a renter
+			os.system("clear")
 			print ("Apartment search for renter\n")
 			renterName = str(raw_input("Enter the renter's username: "))
 			dbCur.execute("select * from renter where renteruname = '" + renterName + "'")
@@ -142,6 +147,7 @@ if logChoice == '1':
 		
 		elif selection == '4':
 			#Updating rental status of an apartment
+			os.system("clear")
 			print ("Update status of rental\n")
 			aptNum = raw_input("Enter the apartment number to update: ")
 			aptNum = pyLib.testNum(re, aptNum)
@@ -150,6 +156,7 @@ if logChoice == '1':
 
 		elif selection == '5':
 			#Report generation
+			os.system("clear")
 			print ("Report\n")
 			dbCur.execute("select * from apt where rentalstatus = 'r'")			
 			print ("Rented apartments: " + str(dbCur.rowcount) + "\n")			
@@ -160,7 +167,12 @@ if logChoice == '1':
 			print ("\nVacant apartments: " + str(dbCur.rowcount) + "\n")			
 			tableOut = from_db_cursor(dbCur)
 			print(tableOut)
-
+		
+		elif selection.lower() == 'menu':
+			#Display menu
+			os.system("clear")
+			pyLib.menuSys()
+			
 		elif selection == "99":
 			#Cleanup and exit
 			dbCur.close()
@@ -180,16 +192,18 @@ else:
 	selection2 = True
 
 	#Print menu/banner
+	os.system("clear")
 	pyLib.banner()
 	pyLib.menuRenter()
 
 	#Menu loop
 	while selection2:
 
-		selection2 = raw_input("\nWhat would you like to do? ")
+		selection2 = raw_input("\nWhat would you like to do? Type (menu) to display options: ")
 
 		if selection2 == '1':
 			#Apartment search based on renter's profile
+			os.system("clear")
 			print("\nResults:\n")
 		
 			dbCur.execute("select * from renter where renteruname = '" + dbUsr + "'")
@@ -211,6 +225,7 @@ else:
 					
 		elif selection2 == '2':
 			#Updating renter's preferred loation
+			os.system("clear")
 			print("Update Location")
 			newLoc = str(raw_input("Enter location of interest: "))
 			newLoc = '\'' + pyLib.testLoc(newLoc) + '\''
@@ -218,6 +233,7 @@ else:
 
 		elif selection2 == '3':
 			#Updating renter's preferred apartment style
+			os.system("clear")
 			print("Update Style")
 			newStyle = str(raw_input("Enter style - choose from Contemporary, Cottage, Mediterranean, Traditional, Rustic or Retro: "))
 			newStyle = '\'' + pyLib.testStyle(newStyle) + '\''
@@ -225,12 +241,18 @@ else:
 		
 		elif selection2 == '4':
 			#Updating rent range for renter
+			os.system("clear")
 			print("Update Rent Values")
 			minRent = str(raw_input("Enter minimum rent value: "))
 			minRent = pyLib.testNum(re, minRent)
 			maxRent = str(raw_input("Enter maximum rent value: "))
 			maxRent = pyLib.testNum(re, maxRent)
 			pyLib.usrRentUpdate(dbCur, db, dbUsr, minRent, maxRent)
+			
+		elif selection2.lower() == 'menu':
+			#Display menu
+			os.system("clear")
+			pyLib.menuRenter()
 
 		elif selection2 == '99':
 			#Cleanup and exit
