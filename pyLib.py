@@ -135,7 +135,7 @@ def menuSys():
 #Renter's menu
 def menuRenter():
 	#print ("\nApartments!\n")
-	print (\n"1.\tSearch for available apartments... \
+	print ("\n1.\tSearch for available apartments... \
 			\n2.\tUpdate location... \
 			\n3.\tUpdate style... \
 			\n4.\tUpdate minimum/maximum rent... \
@@ -144,7 +144,7 @@ def menuRenter():
 #Login menu
 def menuLogin():
 	print ("Login to Apartments!\n")
-	print (\n"1.\tLog in as administrator... \
+	print ("\n1.\tLog in as administrator... \
 			\n2.\tLog in as renter... \
 			\n3.\tFirst time renter? Create a profile... \
 			\n99.\tExit...")
@@ -160,4 +160,4 @@ def banner():
 	print(str("          | |                                                   "))
 	print(str("          |_|                                                   "))
 	print(str("                                                                "))
-	print(str("                           BERGEN COUNTY                        "))
+	print(str("                           BERGEN COUNTY                        \n"))
