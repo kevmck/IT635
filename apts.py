@@ -269,5 +269,5 @@ else:
 			print("\nPlease enter a valid option. Type (menu) to display options:")
 
 		elif (len(selection2) == 0):
-			selection = True
+			selection2 = True
 			print("Try again! Type (menu) to display options:")
