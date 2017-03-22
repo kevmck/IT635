@@ -13,6 +13,7 @@ dbCur = db.cursor()
 
 #Print login menu
 os.system("clear")
+pyLib.banner()
 pyLib.menuLogin()
 
 #Login procedure
@@ -89,12 +90,13 @@ if logChoice == '1':
 	#Menu loop
 	while selection:
 
-		selection = raw_input("\nWhat would you like to do? Type (menu) to display options: ")
+		selection = raw_input("\nWhat would you like to do? Type (m)enu to display options: ")
 	
 		if selection == '1':
 			#Inserting new apartment listing
 			os.system("clear")
-			print ("Insert new apartment\n")		
+			pyLib.banner()
+			print ("Insert New Apartment\n")		
 			rent = str(raw_input("Enter rent: "))
 			rent = pyLib.testNum(re, rent)
 			bed = str(raw_input("Enter number of bedrooms: "))
@@ -114,7 +116,8 @@ if logChoice == '1':
 		elif selection == '2':
 			#Inserting new renter
 			os.system("clear")
-			print ("Insert new renter\n")		
+			pyLib.banner()
+			print ("Insert New Renter\n")		
 			userName = '\'' + str(raw_input("Enter username: ")) + '\''
 			locSearch = str(raw_input("Enter location of interest: "))
 			locSearch = '\'' + pyLib.testLoc(locSearch) + '\''
@@ -137,7 +140,8 @@ if logChoice == '1':
 		elif selection == '3':
 			#Performing an apartment search for a renter
 			os.system("clear")
-			print ("Apartment search for renter\n")
+			pyLib.banner()
+			print ("Apartment Search For Renter\n")
 			renterName = str(raw_input("Enter the renter's username: "))
 			dbCur.execute("select * from renter where renteruname = '" + renterName + "'")
 			if (dbCur.rowcount == 0):
@@ -162,7 +166,8 @@ if logChoice == '1':
 		elif selection == '4':
 			#Updating rental status of an apartment
 			os.system("clear")
-			print ("Update status of rental\n")
+			pyLib.banner()
+			print ("Update Status of Rental\n")
 			aptNum = raw_input("Enter the apartment number to update: ")
 			aptNum = pyLib.testNum(re, aptNum)
 			currStat = raw_input("Enter the current status of the apartment - (r)ented, or (v)acant: ")
@@ -171,18 +176,36 @@ if logChoice == '1':
 		elif selection == '5':
 			#Report generation
 			os.system("clear")
+			pyLib.banner()
 			print ("Report\n")
-			dbCur.execute("select * from apt where rentalstatus = 'r'")			
-			print ("Rented apartments: " + str(dbCur.rowcount) + "\n")			
-			tableOut = from_db_cursor(dbCur)
-			print(tableOut)
+			
+			dbCur.execute("select * from apt where rentalstatus = 'r'")
+			rented = str(dbCur.rowcount)
+			
+			dbCur.execute("select * from apt where rentalstatus = 'v'")
+			vacant = str(dbCur.rowcount)
+			
+			print ("Number of rented apartments - " + rented)
+			print ("Number of vacant apartments - " + vacant)
+			print ("Total number of apartments in system - " + str((int(rented) + int(vacant))))
+			
+			reportExp = raw_input("\nViewing summarized report. Would you like a detailed report? Y/N: ")
+			
+			while reportExp not in 'YyNn' or reportExp == "":
+				reportExp = raw_input("Enter Y/N: ")
+			
+			if reportExp.lower() == "y":	
+				dbCur.execute("select * from apt where rentalstatus = 'r'")			
+				print ("\nRented apartments: " + str(dbCur.rowcount) + "\n")			
+				tableOut = from_db_cursor(dbCur)
+				print(tableOut)
 
-			dbCur.execute("select * from apt where rentalstatus = 'v'")			
-			print ("\nVacant apartments: " + str(dbCur.rowcount) + "\n")			
-			tableOut = from_db_cursor(dbCur)
-			print(tableOut)
+				dbCur.execute("select * from apt where rentalstatus = 'v'")			
+				print ("\nVacant apartments: " + str(dbCur.rowcount) + "\n")			
+				tableOut = from_db_cursor(dbCur)
+				print(tableOut)	
 		
-		elif selection.lower() == 'menu':
+		elif selection.lower() == 'm':
 			#Display menu
 			os.system("clear")
 			pyLib.banner()
@@ -196,11 +219,11 @@ if logChoice == '1':
 			sys.exit()
 
 		elif selection != "":
-			print("\nPlease enter a valid option. Type (menu) to display options:")
+			print("\nPlease enter a valid option. Type (m)enu to display options:")
 
 		elif (len(selection) == 0):
 			selection = True
-			print("Try again! Type (menu) to display options:")
+			print("Try again! Type (m)enu to display options:")
 
 else:
 	#Value that controls menu navigation
@@ -215,12 +238,13 @@ else:
 	#Menu loop
 	while selection2:
 
-		selection2 = raw_input("\nWhat would you like to do? Type (menu) to display options: ")
+		selection2 = raw_input("\nWhat would you like to do? Type (m)enu to display options: ")
 
 		if selection2 == '1':
 			#Apartment search based on renter's profile
 			os.system("clear")
-			print("\nResults:\n")
+			pyLib.banner()
+			print("\nSearch Results:\n")
 		
 			dbCur.execute("select * from renter where renteruname = '" + dbUsr + "'")
 			for row in dbCur.fetchall():
@@ -242,6 +266,7 @@ else:
 		elif selection2 == '2':
 			#Updating renter's preferred loation
 			os.system("clear")
+			pyLib.banner()
 			print("Update Location\n")
 			newLoc = str(raw_input("Enter location of interest: "))
 			newLoc = '\'' + pyLib.testLoc(newLoc) + '\''
@@ -250,6 +275,7 @@ else:
 		elif selection2 == '3':
 			#Updating renter's preferred apartment style
 			os.system("clear")
+			pyLib.banner()
 			print("Update Style\n")
 			newStyle = str(raw_input("Enter style - choose from Contemporary, Cottage, Mediterranean, Traditional, Rustic or Retro: "))
 			newStyle = '\'' + pyLib.testStyle(newStyle) + '\''
@@ -258,6 +284,7 @@ else:
 		elif selection2 == '4':
 			#Updating rent range for renter
 			os.system("clear")
+			pyLib.banner()
 			print("Update Rent Values\n")
 			minRent = str(raw_input("Enter minimum rent value: "))
 			minRent = pyLib.testNum(re, minRent)
@@ -265,7 +292,7 @@ else:
 			maxRent = pyLib.testNum(re, maxRent)
 			pyLib.usrRentUpdate(dbCur, db, dbUsr, minRent, maxRent)
 			
-		elif selection2.lower() == 'menu':
+		elif selection2.lower() == 'm':
 			#Display menu
 			os.system("clear")
 			pyLib.banner()
@@ -279,8 +306,8 @@ else:
 			sys.exit()
 
 		elif selection2 != "":
-			print("\nPlease enter a valid option. Type (menu) to display options:")
+			print("\nPlease enter a valid option. Type (m)enu to display options:")
 
 		elif (len(selection2) == 0):
 			selection2 = True
-			print("Try again! Type (menu) to display options:")
+			print("Try again! Type (m)enu to display options:")

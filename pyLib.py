@@ -5,6 +5,7 @@ def loginProc(cursor, dataBase, sys, username, password, role):
 	cursor.execute("select * from user where username = '" + username + "' and role  = '" + role + "'")
 	if (cursor.rowcount == 0):
 		print("Login failed!")
+		raw_input("Press any key to exit...")
 		sys.exit();
 
 	else:
@@ -13,6 +14,7 @@ def loginProc(cursor, dataBase, sys, username, password, role):
 				print("Login successful.")
 			else:
 				print("Login failed!")
+				raw_input("Press any key to exit...")
 				sys.exit();
 
 #Describe user table
