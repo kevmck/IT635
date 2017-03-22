@@ -3,6 +3,10 @@
 import getpass, MySQLdb, os, pyLib, re, sys
 from prettytable import from_db_cursor
 
+#Set terminal name/size
+sys.stdout.write(b'\33]0;Apartments!\a')
+os.system("printf '\033[8;30;105t'")
+
 #Database login and interface instanciator (cursor)
 db = MySQLdb.connect(host = "localhost", user = "it635", passwd = "password", db = "apartments")
 dbCur = db.cursor()
@@ -35,7 +39,16 @@ elif logChoice == '2':
 elif logChoice == '3':
 	#Inserting new renter/user		
 	userName = '\'' + str(raw_input("Enter username: ")) + '\''
-	passWord = '\'' + getpass.getpass("Enter password: ") + '\''
+	
+	pw1 = getpass.getpass("Password: ")
+	pw2 = getpass.getpass("Confirm: ")
+
+	while (pw1 != pw2):
+		print("Passwords do not match; try again.")
+		pw1 = getpass.getpass("Password: ")
+		pw2 = getpass.getpass("Confirm: ")
+		
+	passWord = '\'' + pw1 + '\''
 	locSearch = str(raw_input("Enter location of interest: "))
 	locSearch = '\'' + pyLib.testLoc(locSearch) + '\''
 	stySearch = str(raw_input("Enter style - choose from Contemporary, Cottage, Mediterranean, Traditional, Rustic or Retro: "))

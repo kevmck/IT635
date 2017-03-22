@@ -143,7 +143,7 @@ def menuRenter():
 
 #Login menu
 def menuLogin():
-	print ("Login to Apartments!\n")
+	print ("Login to Apartments!")
 	print ("\n1.\tLog in as administrator... \
 			\n2.\tLog in as renter... \
 			\n3.\tFirst time renter? Create a profile... \
