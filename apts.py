@@ -25,14 +25,14 @@ dbRole = None
 
 if logChoice == '1':
 	#Administrator login
-	dbUsr = str(raw_input("\nUsername: "))
+	dbUsr = str(raw_input("Username: "))
 	dbPass = getpass.getpass("Password:")
 	dbRole = "administrator"
 	pyLib.loginProc(dbCur, db, sys, dbUsr, dbPass, dbRole)
 
 elif logChoice == '2':
 	#Renter login
-	dbUsr = str(raw_input("\nUsername: "))
+	dbUsr = str(raw_input("Username: "))
 	dbPass = getpass.getpass("Password:")
 	dbRole = "renter"
 	pyLib.loginProc(dbCur, db, sys, dbUsr, dbPass, dbRole)
