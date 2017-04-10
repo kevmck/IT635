@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import getpass, MySQLdb, os, pyLib, re, sys
+import getpass, MySQLdb, os, pyLib, re, saltLib, sys
 from prettytable import from_db_cursor
 
 #Set terminal name/size
@@ -27,6 +27,7 @@ if logChoice == '1':
 	#Administrator login
 	dbUsr = str(raw_input("Username: "))
 	dbPass = getpass.getpass("Password:")
+	dbPass = saltLib.getHash(dbUsr, dbPass)
 	dbRole = "administrator"
 	pyLib.loginProc(dbCur, db, sys, dbUsr, dbPass, dbRole)
 
@@ -34,6 +35,7 @@ elif logChoice == '2':
 	#Renter login
 	dbUsr = str(raw_input("Username: "))
 	dbPass = getpass.getpass("Password:")
+	dbPass = saltLib.getHash(dbUsr, dbPass)
 	dbRole = "renter"
 	pyLib.loginProc(dbCur, db, sys, dbUsr, dbPass, dbRole)
 
@@ -48,6 +50,7 @@ elif logChoice == '3':
 		print("Passwords do not match; try again.")
 		pw1 = getpass.getpass("Password: ")
 		pw2 = getpass.getpass("Confirm: ")
+
 		
 	passWord = '\'' + pw1 + '\''
 	locSearch = str(raw_input("Enter location of interest: "))
@@ -63,6 +66,7 @@ elif logChoice == '3':
 	if (dbCur.rowcount != 0):
 		print ("User/renter name already exists; try again.")
 	else:
+		passWord = '\'' + saltLib.setHash(userName[1:(int(len(userName) -1))], pw1) + '\''
 		pyLib.renterInsert(dbCur, db, userName, locSearch, stySearch, minRent, maxRent)
 		pyLib.userInsert(dbCur, db, userName, passWord, role)
 		print ("Successfully created your profile, " + userName + ". Please log in as a renter with your new credentials.")
