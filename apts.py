@@ -296,6 +296,46 @@ else:
 			maxRent = pyLib.testNum(re, maxRent)
 			pyLib.usrRentUpdate(dbCur, db, dbUsr, minRent, maxRent)
 			
+		elif selection2 == '5':
+			#Submenu for watchlist and notes
+			os.system("clear")
+			pyLib.banner();
+			watchList = True
+			print("Apartment Watchlist\n")
+			
+			pyLib.watchListMenu()
+			
+			while watchList:
+				watchMenu = raw_input("\nWhat would you like to do? Type (m)enu to display options: ")
+			
+				if watchMenu == '1':
+					print("Add apartment to watchlist")
+				
+				elif watchMenu == '2':
+					print("View notes")
+				
+				elif watchMenu == '3':
+					print("Delete apartment from watchlist")
+				
+				elif watchMenu == '99':
+					os.system("clear")
+					pyLib.banner();
+					pyLib.menuRenter();
+					break
+					
+				elif watchMenu == 'm':
+					os.system("clear")
+					pyLib.banner();
+					watchList = True
+				
+				elif watchMenu != "":
+					print("\nPlease enter a valid option. Type (m)enu to display options:")
+
+				elif (len(selection2) == 0):
+					watchMenu = True
+					print("Try again! Type (m)enu to display options:")
+			
+			
 		elif selection2.lower() == 'm':
 			#Display menu
 			os.system("clear")

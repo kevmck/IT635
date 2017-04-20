@@ -141,7 +141,15 @@ def menuRenter():
 			\n2.\tUpdate location... \
 			\n3.\tUpdate style... \
 			\n4.\tUpdate minimum/maximum rent... \
+			\n5.\tApartment watch list... \
 			\n99.\tLogout")
+			
+#Renter's watchlist submenu
+def watchListMenu():
+	print ("\n1.\tAdd apartment to watchlist... \
+			\n2.\tView notes... \
+			\n3.\tDelete apartment from watchlist... \
+			\n99.\tReturn to main menu...")
 
 #Login menu
 def menuLogin():
