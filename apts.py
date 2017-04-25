@@ -23,24 +23,24 @@ while logChoice not in ("1", "2", "3", "99"):
 
 dbRole = None
 
+#Administrator login
 if logChoice == '1':
-	#Administrator login
 	dbUsr = str(raw_input("Username: "))
 	dbPass = getpass.getpass("Password:")
 	dbPass = saltLib.getHash(dbUsr, dbPass)
 	dbRole = "administrator"
 	pyLib.loginProc(dbCur, db, sys, dbUsr, dbPass, dbRole)
 
+#Renter login
 elif logChoice == '2':
-	#Renter login
 	dbUsr = str(raw_input("Username: "))
 	dbPass = getpass.getpass("Password:")
 	dbPass = saltLib.getHash(dbUsr, dbPass)
 	dbRole = "renter"
 	pyLib.loginProc(dbCur, db, sys, dbUsr, dbPass, dbRole)
 
-elif logChoice == '3':
-	#Inserting new renter/user		
+#Inserting new renter/user
+elif logChoice == '3':		
 	userName = '\'' + str(raw_input("Enter username: ")) + '\''
 	
 	pw1 = getpass.getpass("Password: ")
@@ -74,15 +74,15 @@ elif logChoice == '3':
 	raw_input()	
 	sys.exit()
 
+#Cleanup and exit from login menu
 elif logChoice == '99':
-	#Cleanup and exit from login menu
 	dbCur.close()
 	db.close()	
 	print ("Exiting...")
 	sys.exit()
 
+#Value that controls menu navigation
 if logChoice == '1':
-	#Value that controls menu navigation
 	selection = True
 
 	#Print menu
@@ -95,9 +95,9 @@ if logChoice == '1':
 	while selection:
 
 		selection = raw_input("\nWhat would you like to do? Type (m)enu to display options: ")
-	
+		
+		#Inserting new apartment listing
 		if selection == '1':
-			#Inserting new apartment listing
 			os.system("clear")
 			pyLib.banner()
 			print ("Insert New Apartment\n")		
@@ -116,9 +116,9 @@ if logChoice == '1':
 			status = '\'' + str(raw_input("Enter the rental status of the apartment - (r)ented, or (v)acant: ")) + '\''
 			pyLib.aptInsert(dbCur, db, rent, bed, bath, style, age, loc, status)
 			print ("Successfully created new apartment!")
-
+		
+		#Inserting new renter
 		elif selection == '2':
-			#Inserting new renter
 			os.system("clear")
 			pyLib.banner()
 			print ("Insert New Renter\n")		
@@ -140,9 +140,9 @@ if logChoice == '1':
 				pyLib.renterInsert(dbCur, db, userName, locSearch, stySearch, minRent, maxRent)
 				pyLib.userInsert(dbCur, db, userName, passWord, role)
 				print ("Successfully created profile for " + userName + "; they can sign in with the default password (password).")
-
+		
+		#Performing an apartment search for a renter
 		elif selection == '3':
-			#Performing an apartment search for a renter
 			os.system("clear")
 			pyLib.banner()
 			print ("Apartment Search For Renter\n")
@@ -167,8 +167,8 @@ if logChoice == '1':
 					tableOut = from_db_cursor(dbCur)
 					print(tableOut)
 		
+		#Updating rental status of an apartment
 		elif selection == '4':
-			#Updating rental status of an apartment
 			os.system("clear")
 			pyLib.banner()
 			print ("Update Status of Rental\n")
@@ -176,9 +176,9 @@ if logChoice == '1':
 			aptNum = pyLib.testNum(re, aptNum)
 			currStat = raw_input("Enter the current status of the apartment - (r)ented, or (v)acant: ")
 			pyLib.aptStatUpdate(dbCur, db, aptNum, currStat)			
-
+		
+		#Report generation
 		elif selection == '5':
-			#Report generation
 			os.system("clear")
 			pyLib.banner()
 			print ("Report\n")
@@ -209,19 +209,20 @@ if logChoice == '1':
 				tableOut = from_db_cursor(dbCur)
 				print(tableOut)	
 		
+		#Display menu
 		elif selection.lower() == 'm':
-			#Display menu
 			os.system("clear")
 			pyLib.banner()
 			pyLib.menuSys()
-			
+		
+		#Cleanup and exit
 		elif selection == "99":
-			#Cleanup and exit
 			dbCur.close()
 			db.close()
 			print("Exiting...")
 			sys.exit()
-
+		
+		#Input validation to maintain loop through typos.
 		elif selection != "":
 			print("\nPlease enter a valid option. Type (m)enu to display options:")
 
@@ -244,8 +245,8 @@ else:
 
 		selection2 = raw_input("\nWhat would you like to do? Type (m)enu to display options: ")
 
+		#Apartment search based on renter's profile
 		if selection2 == '1':
-			#Apartment search based on renter's profile
 			os.system("clear")
 			pyLib.banner()
 			print("\nSearch Results:\n")
@@ -266,18 +267,18 @@ else:
 				print("\n" + str(dbCur.rowcount) + " matching apartment(s) found:\n")
 				tableOut = from_db_cursor(dbCur)
 				print(tableOut)
-					
+				
+		#Updating renter's preferred loation			
 		elif selection2 == '2':
-			#Updating renter's preferred loation
 			os.system("clear")
 			pyLib.banner()
 			print("Update Location\n")
 			newLoc = str(raw_input("Enter location of interest: "))
 			newLoc = '\'' + pyLib.testLoc(newLoc) + '\''
 			pyLib.usrLocationUpdate(dbCur, db, dbUsr, newLoc)
-
+		
+		#Updating renter's preferred apartment style
 		elif selection2 == '3':
-			#Updating renter's preferred apartment style
 			os.system("clear")
 			pyLib.banner()
 			print("Update Style\n")
@@ -285,8 +286,8 @@ else:
 			newStyle = '\'' + pyLib.testStyle(newStyle) + '\''
 			pyLib.usrStyleUpdate(dbCur, db, dbUsr, newStyle)
 		
+		#Updating rent range for renter
 		elif selection2 == '4':
-			#Updating rent range for renter
 			os.system("clear")
 			pyLib.banner()
 			print("Update Rent Values\n")
@@ -295,9 +296,9 @@ else:
 			maxRent = str(raw_input("Enter maximum rent value: "))
 			maxRent = pyLib.testNum(re, maxRent)
 			pyLib.usrRentUpdate(dbCur, db, dbUsr, minRent, maxRent)
-			
+		
+		#Submenu for watchlist and notes	
 		elif selection2 == '5':
-			#Submenu for watchlist and notes
 			os.system("clear")
 			pyLib.banner()
 			watchList = True
@@ -305,9 +306,9 @@ else:
 			
 			while watchList:
 				watchMenu = raw_input("\nWhat would you like to do? Type (m)enu to display options: ")
-			
+				
+				#Adding new apartment to user's watchlist; references local DB to ensure apartment number is valid
 				if watchMenu == '1':
-					#Adding new apartment to user's watchlist; references local DB to ensure apartment number is valid
 					print("Add apartment to watchlist")
 					aptNum = raw_input("Enter apartment number to add: ")
 					dbCur.execute("select * from apt where aptnumber = '" + aptNum + "'")					
@@ -316,17 +317,43 @@ else:
 						print ("Apartment does not exist; cannot add to watchlist.")
 					else:
 						mongoLib.watchListInsert(dbUsr, aptNum)
-						print("Successfully added Apt. # " + aptNum + " to your watchlist.")
 				
+				#Display user's watchlist.
 				elif watchMenu == '2':
-					print("View notes")
-					aptNum = raw_input("Enter apartment number to view: ")
-					notes = mongoLib.fetch(dbUsr, aptNum)
-					print(notes)
-				
+					print("View watchlist")
+					listReturn = mongoLib.watchListFetch(dbUsr)
+					print(listReturn)
+					
+				#Delete apartment from watchlist.
 				elif watchMenu == '3':
 					print("Delete apartment from watchlist")
 				
+				#Add apartment notes.	
+				elif watchMenu == '4':
+					print("Add a note")
+					aptNum = raw_input("Enter apartment number to update: ")
+					note = raw_input("Enter notes: ")
+					mongoLib.noteInsert(dbUsr, aptNum, note)
+					
+				#View apartment notes.	
+				elif watchMenu == '5':
+					print("View notes")
+					aptNum = raw_input("Enter apartment number to view: ")
+					returnedNotes = mongoLib.noteFetch(dbUsr, aptNum)
+					print(returnedNotes)
+					
+				elif watchMenu == '6':
+					print("Update note")
+					aptNum = raw_input("Enter apartment number to update: ")
+					newNote = raw_input("Enter notes: ")
+					mongoLib.noteUpdate(dbUsr, aptNum, newNote)
+				
+				#Delete apartment notes.	
+				elif watchMenu == '7':
+					print("Delete notes")
+					aptNum = raw_input("Enter apartment number to delete: ")
+					mongoLib.noteDelete(dbUsr, aptNum)
+					
 				elif watchMenu == '99':
 					os.system("clear")
 					pyLib.banner()
@@ -339,6 +366,7 @@ else:
 					pyLib.watchListMenu()
 					watchList = True
 				
+				#Input validation to maintain loop through typos.
 				elif watchMenu != "":
 					print("\nPlease enter a valid option. Type (m)enu to display options:")
 
@@ -346,20 +374,20 @@ else:
 					watchMenu = True
 					print("Try again! Type (m)enu to display options:")
 			
-			
+		#Display menu	
 		elif selection2.lower() == 'm':
-			#Display menu
 			os.system("clear")
 			pyLib.banner()
 			pyLib.menuRenter()
-
+		
+		#Cleanup and exit
 		elif selection2 == '99':
-			#Cleanup and exit
 			dbCur.close()			
 			db.close()
 			print("Exiting...")
 			sys.exit()
-
+		
+		#Input validation to maintain loop through typos.
 		elif selection2 != "":
 			print("\nPlease enter a valid option. Type (m)enu to display options:")
 

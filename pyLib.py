@@ -148,8 +148,12 @@ def menuRenter():
 def watchListMenu():
 	print ("Apartment Watchlist\n")
 	print ("\n1.\tAdd apartment to watchlist... \
-			\n2.\tView notes... \
+			\n2.\tView watchlist... \
 			\n3.\tDelete apartment from watchlist... \
+			\n4.\tAdd a note... \
+			\n5.\tView notes...	\
+			\n6.\tEdit note... \
+			\n7.\tDelete note... \
 			\n99.\tReturn to main menu...")
 
 #Login menu
