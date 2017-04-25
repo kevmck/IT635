@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import getpass, MySQLdb, os, pyLib, re, saltLib, sys
+import getpass, MySQLdb, os, mongoLib, pyLib, re, saltLib, sys
 from prettytable import from_db_cursor
 
 #Set terminal name/size
@@ -299,33 +299,44 @@ else:
 		elif selection2 == '5':
 			#Submenu for watchlist and notes
 			os.system("clear")
-			pyLib.banner();
+			pyLib.banner()
 			watchList = True
-			print("Apartment Watchlist\n")
-			
 			pyLib.watchListMenu()
 			
 			while watchList:
 				watchMenu = raw_input("\nWhat would you like to do? Type (m)enu to display options: ")
 			
 				if watchMenu == '1':
+					#Adding new apartment to user's watchlist; references local DB to ensure apartment number is valid
 					print("Add apartment to watchlist")
+					aptNum = raw_input("Enter apartment number to add: ")
+					dbCur.execute("select * from apt where aptnumber = '" + aptNum + "'")					
+			
+					if (dbCur.rowcount == 0):
+						print ("Apartment does not exist; cannot add to watchlist.")
+					else:
+						mongoLib.watchListInsert(dbUsr, aptNum)
+						print("Successfully added Apt. # " + aptNum + " to your watchlist.")
 				
 				elif watchMenu == '2':
 					print("View notes")
+					aptNum = raw_input("Enter apartment number to view: ")
+					notes = mongoLib.fetch(dbUsr, aptNum)
+					print(notes)
 				
 				elif watchMenu == '3':
 					print("Delete apartment from watchlist")
 				
 				elif watchMenu == '99':
 					os.system("clear")
-					pyLib.banner();
-					pyLib.menuRenter();
+					pyLib.banner()
+					pyLib.menuRenter()
 					break
 					
 				elif watchMenu == 'm':
 					os.system("clear")
-					pyLib.banner();
+					pyLib.banner()
+					pyLib.watchListMenu()
 					watchList = True
 				
 				elif watchMenu != "":

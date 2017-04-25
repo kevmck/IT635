@@ -15,7 +15,6 @@ else:
 
 
 db = client.it635
-collection = db.IT635_notes
 
 #Show names of collections. Comment/remove before final.
 print(db.collection_names(include_system_collections=False))
@@ -32,14 +31,41 @@ print(db.collection_names(include_system_collections=False))
 #Fetch item based on criteria
 #userName2 = raw_input("Enter name to search: ")
 
-def fetch(userName2):
+def fetch(userName2, aptNum):
+	collection = db.IT635_notes
 	returnData = ""
-	for item in collection.find({"username": userName2}):
-		#pprint.pprint(item)
-		#return item
-		returnData = returnData + item.get("note", None) + "\n"
+	param = {"username": userName2, "aptnum": aptNum}
+	resCount = (collection.find(param).count())
+	print(resCount)
+	
+	if (resCount == 0):
+		returnData = "No notes found for the apartment number provided."
+		return returnData
 		
+	else:
+		for item in collection.find():
+			apt = str(item.get("aptnum", None))
+			
+			if (apt == aptNum):	
+				note = str(item.get("note", None))
+				returnData = returnData + apt + note
+	
 	return returnData
+	
+def noteFetch(userName, userApt):
+	collection = db.IT635_notes
+	fetchNote = {"username": userName, "aptnum": userApt}
+	pprint.pprint(collection.find_one(fetchNote))
+	
+def noteInsert(userName, userApt, userNote):
+	collection = db.IT635_notes
+	insertNote = {"username": userName, "aptnum": userApt, "note": userNote}
+	insertProc = collection.insert_one(insertNote).inserted_id
+	
+def watchListInsert(userName, userApt):
+	collection = db.IT635_watchlist
+	insertWatchList = {"username": userName, "aptnum": userApt}
+	insertProc = collection.insert_one(insertWatchList).inserted_id
 
 #Close connection to mLab.
 client.close()

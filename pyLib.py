@@ -146,6 +146,7 @@ def menuRenter():
 			
 #Renter's watchlist submenu
 def watchListMenu():
+	print ("Apartment Watchlist\n")
 	print ("\n1.\tAdd apartment to watchlist... \
 			\n2.\tView notes... \
 			\n3.\tDelete apartment from watchlist... \
