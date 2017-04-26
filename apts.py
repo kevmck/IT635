@@ -327,6 +327,8 @@ else:
 				#Delete apartment from watchlist.
 				elif watchMenu == '3':
 					print("Delete apartment from watchlist")
+					aptNum = raw_input("Enter apartment number to delete: ")
+					mongoLib.watchListDelete(dbUsr, aptNum)
 				
 				#Add apartment notes.	
 				elif watchMenu == '4':
@@ -339,8 +341,7 @@ else:
 				elif watchMenu == '5':
 					print("View notes")
 					aptNum = raw_input("Enter apartment number to view: ")
-					returnedNotes = mongoLib.noteFetch(dbUsr, aptNum)
-					print(returnedNotes)
+					mongoLib.noteFetch(dbUsr, aptNum)
 					
 				elif watchMenu == '6':
 					print("Update note")

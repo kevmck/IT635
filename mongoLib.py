@@ -18,23 +18,22 @@ db = client.it635
 
 def noteFetch(userName2, aptNum):
 	collection = db.IT635_notes
-	returnData = ""
+	#returnData = ""
 	param = {"username": userName2, "aptnum": aptNum}
 	resCount = (collection.find(param).count())
+	print(resCount)
 	
 	if (resCount == 0):
-		returnData = "No notes found for the apartment number provided."
-		return returnData
+		print "No notes found for the apartment number provided."
+		#return returnData
 		
 	else:
-		for item in collection.find():
+		for item in collection.find(param):
 			apt = str(item.get("aptnum", None))
-			
-			if (apt == aptNum):	
-				note = str(item.get("note", None))
-				returnData = returnData + "Apartment: " + apt + "\nNotes: " + note + "\n\n"
+			note = str(item.get("notes", None))
+			returnData = "Apartment: " + apt + "\nNotes: " + note + "\n\n"
 	
-	return returnData
+	print(returnData)
 	
 def noteInsert(userName, userApt, userNote):
 	collection = db.IT635_notes
@@ -86,25 +85,36 @@ def watchListInsert(userName, userApt):
 def watchListFetch(userName):
 
 	collection = db.IT635_watchlist
-	returnData = ""
+	returnList = ""
 	param = {"username": userName}
 	resCount = (collection.find(param).count())
 	count = 1
 	
 	if (resCount == 0):
-		returnData = "No apartments are currently in your watchlist."
-		return returnData
+		returnList = "No apartments are currently in your watchlist."
+		return returnList
 		
 	else:
-		for item in collection.find():
+		for item in collection.find().sort([("aptnum", 1)]):
 			name = str(item.get("username", None))
 			
 			if (name == userName):	
 				aptnum = str(item.get("aptnum", None))
-				returnData = returnData + str(count) + ". " + aptnum + "\n"
+				returnList = returnList + str(count) + ". " + aptnum + "\n"
 				count += 1
 	
-	return returnData
+	return returnList
+	
+def watchListDelete(userName, userApt):
+	collection = db.IT635_watchlist
+	wlDelete = {"username": userName, "aptnum": userApt}
+	listCount = (collection.find(wlDelete).count())
+	
+	if (listCount != 0):
+		deleteProc = collection.remove(wlDelete)
+		print("Selected apartment deleted from watchlist successfully.")
+	else:
+		print("This apartment was not in your watchlist; no changes made.")
 
 #Close connection to mLab.
 client.close()
