@@ -1,3 +1,5 @@
+import saltLib
+
 #Function summaries are commented.
 
 #Login processor
@@ -9,6 +11,7 @@ def loginProc(cursor, dataBase, sys, username, password, role):
 		sys.exit();
 
 	else:
+		password = saltLib.getHash(username, password)
 		for row in cursor.fetchall():	
 			if (row[1] == password):
 				print("Login successful.")
@@ -126,8 +129,8 @@ def testNum(re, num):
 
 #Administrator's menu
 def menuSys():
-	#print ("\nApartments!\n")
-	print ("1.\tAdd a new property... \
+	print ("Admin Menu")
+	print ("\n1.\tAdd a new property... \
 			\n2.\tAdd a new renter... \
 			\n3.\tRun apartment search for renter... \
 			\n4.\tUpdate status of rental... \
@@ -136,7 +139,7 @@ def menuSys():
 
 #Renter's menu
 def menuRenter():
-	#print ("\nApartments!\n")
+	print ("Renter Menu")
 	print ("\n1.\tSearch for available apartments... \
 			\n2.\tUpdate location... \
 			\n3.\tUpdate style... \
@@ -146,7 +149,7 @@ def menuRenter():
 			
 #Renter's watchlist submenu
 def watchListMenu():
-	print ("Apartment Watchlist\n")
+	print ("Apartment Watchlist")
 	print ("\n1.\tAdd apartment to watchlist... \
 			\n2.\tView watchlist... \
 			\n3.\tDelete apartment from watchlist... \

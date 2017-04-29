@@ -25,7 +25,6 @@ def noteFetch(userName2, aptNum):
 	
 	if (resCount == 0):
 		print "No notes found for the apartment number provided."
-		#return returnData
 		
 	else:
 		for item in collection.find(param):
@@ -77,7 +76,7 @@ def watchListInsert(userName, userApt):
 	
 	if (listCheck == 0):
 		insertProc = collection.insert_one(insertWatchList).inserted_id
-		print("Successfully added Apt. # " + userApt + " to your watchlist.")
+		print("Successfully added Apt. #" + userApt + " to your watchlist.")
 		
 	else:
 		print("This apartment is already on your watchlist.")
@@ -88,7 +87,6 @@ def watchListFetch(userName):
 	returnList = ""
 	param = {"username": userName}
 	resCount = (collection.find(param).count())
-	count = 1
 	
 	if (resCount == 0):
 		returnList = "No apartments are currently in your watchlist."
@@ -100,8 +98,7 @@ def watchListFetch(userName):
 			
 			if (name == userName):	
 				aptnum = str(item.get("aptnum", None))
-				returnList = returnList + str(count) + ". " + aptnum + "\n"
-				count += 1
+				returnList = returnList + aptnum + "\n"
 	
 	return returnList
 	

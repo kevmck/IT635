@@ -27,7 +27,6 @@ dbRole = None
 if logChoice == '1':
 	dbUsr = str(raw_input("Username: "))
 	dbPass = getpass.getpass("Password:")
-	dbPass = saltLib.getHash(dbUsr, dbPass)
 	dbRole = "administrator"
 	pyLib.loginProc(dbCur, db, sys, dbUsr, dbPass, dbRole)
 
@@ -35,7 +34,6 @@ if logChoice == '1':
 elif logChoice == '2':
 	dbUsr = str(raw_input("Username: "))
 	dbPass = getpass.getpass("Password:")
-	dbPass = saltLib.getHash(dbUsr, dbPass)
 	dbRole = "renter"
 	pyLib.loginProc(dbCur, db, sys, dbUsr, dbPass, dbRole)
 
@@ -309,6 +307,8 @@ else:
 				
 				#Adding new apartment to user's watchlist; references local DB to ensure apartment number is valid
 				if watchMenu == '1':
+					os.system("clear")
+					pyLib.banner()
 					print("Add apartment to watchlist")
 					aptNum = raw_input("Enter apartment number to add: ")
 					dbCur.execute("select * from apt where aptnumber = '" + aptNum + "'")					
@@ -316,22 +316,66 @@ else:
 					if (dbCur.rowcount == 0):
 						print ("Apartment does not exist; cannot add to watchlist.")
 					else:
-						mongoLib.watchListInsert(dbUsr, aptNum)
+						print("\nShowing apartment #" + aptNum + "\n")
+						tableOut = from_db_cursor(dbCur)
+						print(tableOut)
+						addConf = raw_input("\nIs this the apartment you would like to add? ")
+						
+						while addConf not in 'YyNn' or addConf == "":
+							addConf = raw_input("Enter Y/N: ")
+						
+						if addConf.lower() == 'y':
+							print("\n")
+							mongoLib.watchListInsert(dbUsr, aptNum)
+							
+						else:
+							print("Apartment not added.")
 				
 				#Display user's watchlist.
 				elif watchMenu == '2':
-					print("View watchlist")
+					os.system("clear")
+					pyLib.banner()
+					print("View watchlist\n")
 					listReturn = mongoLib.watchListFetch(dbUsr)
-					print(listReturn)
+					count = 1
+					
+					for i in listReturn.splitlines():
+						print(str(count) + ". " + i)
+						count+=1
+					
+					listDetail = raw_input("\nWould you like to view apartment details? ")
+					
+					while listDetail not in 'YyNn' or listDetail == "":
+						listDetail = raw_input("Enter Y/N: ")
+					
+					listQuery = "SELECT * from apt where aptnumber = '"
+					
+					if listDetail.lower() == "y":
+						print("\nDetailed Watchlist\n")
+						
+						for j in listReturn.splitlines():
+							listQuery += (j + "' OR aptnumber = '")
+						
+						listQuery = listQuery[:-17]
+						dbCur.execute(listQuery)		
+						tableOut = from_db_cursor(dbCur)
+						print(tableOut)
+						
+					else:
+						pass						
 					
 				#Delete apartment from watchlist.
 				elif watchMenu == '3':
+					os.system("clear")
+					pyLib.banner()
 					print("Delete apartment from watchlist")
 					aptNum = raw_input("Enter apartment number to delete: ")
 					mongoLib.watchListDelete(dbUsr, aptNum)
 				
 				#Add apartment notes.	
 				elif watchMenu == '4':
+					os.system("clear")
+					pyLib.banner()
 					print("Add a note")
 					aptNum = raw_input("Enter apartment number to update: ")
 					note = raw_input("Enter notes: ")
@@ -339,11 +383,15 @@ else:
 					
 				#View apartment notes.	
 				elif watchMenu == '5':
+					os.system("clear")
+					pyLib.banner()
 					print("View notes")
 					aptNum = raw_input("Enter apartment number to view: ")
 					mongoLib.noteFetch(dbUsr, aptNum)
 					
 				elif watchMenu == '6':
+					os.system("clear")
+					pyLib.banner()
 					print("Update note")
 					aptNum = raw_input("Enter apartment number to update: ")
 					newNote = raw_input("Enter notes: ")
@@ -351,6 +399,8 @@ else:
 				
 				#Delete apartment notes.	
 				elif watchMenu == '7':
+					os.system("clear")
+					pyLib.banner()
 					print("Delete notes")
 					aptNum = raw_input("Enter apartment number to delete: ")
 					mongoLib.noteDelete(dbUsr, aptNum)
