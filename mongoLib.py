@@ -1,4 +1,4 @@
-import os, pprint, pyping, sys
+import os, pprint, pyLib, pyping, re, sys
 from pymongo import MongoClient
 
 print("Testing mLab connection...\n")
@@ -15,10 +15,10 @@ else:
 
 
 db = client.it635
-
+"""
 def noteFetch(userName2, aptNum):
 	collection = db.IT635_notes
-	#returnData = ""
+	returnData = ""
 	param = {"username": userName2, "aptnum": aptNum}
 	resCount = (collection.find(param).count())
 	print(resCount)
@@ -33,11 +33,38 @@ def noteFetch(userName2, aptNum):
 			returnData = "Apartment: " + apt + "\nNotes: " + note + "\n\n"
 	
 	print(returnData)
+"""
+
+def noteFetch(userName2, aptNum):
+	collection = db.IT635_notes
+	returnData = ""
+	un = userName2
 	
+	if aptNum.lower() == 'a':
+		param = {"username": un}
+	
+	else:
+		aptNum = pyLib.testNum(re, aptNum)
+		param = {"username": un, "aptnum": aptNum}
+	
+	resCount = (collection.find(param).count())
+	print(resCount)
+	
+	if (resCount == 0):
+		print "\nNo notes found for the apartment number provided."
+		
+	else:
+		for item in collection.find(param):
+			apt = str(item.get("aptnum", None))
+			note = str(item.get("notes", None))
+			returnData += "\nApartment: " + apt + "\nNotes: " + note + "\n"
+	
+	print(returnData)
+		
 def noteInsert(userName, userApt, userNote):
 	collection = db.IT635_notes
 	findNote = {"username": userName, "aptnum": userApt}
-	insertNote = {"username": userName, "aptnum": userApt, "note": userNote}
+	insertNote = {"username": userName, "aptnum": userApt, "notes": userNote}
 	noteCount = (collection.find(findNote).count())
 	
 	if (noteCount != 0):
@@ -109,9 +136,9 @@ def watchListDelete(userName, userApt):
 	
 	if (listCount != 0):
 		deleteProc = collection.remove(wlDelete)
-		print("Selected apartment deleted from watchlist successfully.")
+		print("\nApartment #" + userApt + " deleted from watchlist successfully.")
 	else:
-		print("This apartment was not in your watchlist; no changes made.")
+		print("\nApartment #" + userApt + " was not in your watchlist; no changes made.")
 
 #Close connection to mLab.
 client.close()

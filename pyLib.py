@@ -124,7 +124,7 @@ def testStyle(styleCheck):
 #Check that numbers input are valid
 def testNum(re, num):
 	while not re.match("^[0-9]*$", num) or num == "":
-		num = raw_input("Enter valid number: ")
+		num = raw_input("Enter valid number or option: ")
 	return num
 
 #Administrator's menu
@@ -169,13 +169,13 @@ def menuLogin():
 			
 #Menu banner
 def banner():
-	print(str("                            _                        _       _  "))
-	print(str("     /\                    | |                      | |     | | "))
-	print(str("    /  \   _ __   __ _ _ __| |_ _ __ ___   ___ _ __ | |_ ___| | "))
-	print(str("   / /\ \ | '_ \ / _` | '__| __| '_ ` _ \ / _ \ '_ \| __/ __| | "))
-	print(str("  / ____ \| |_) | (_| | |  | |_| | | | | |  __/ | | | |_\__ \_| "))
-	print(str(" /_/    \_\ .__/ \__,_|_|   \__|_| |_| |_|\___|_| |_|\__|___(_) "))
-	print(str("          | |                                                   "))
-	print(str("          |_|                                                   "))
-	print(str("                                                                "))
-	print(str("                           BERGEN COUNTY                        \n"))
+	print(str("                                              _                        _       _  "))
+	print(str("                       /\                    | |                      | |     | | "))
+	print(str("                      /  \   _ __   __ _ _ __| |_ _ __ ___   ___ _ __ | |_ ___| | "))
+	print(str("                     / /\ \ | '_ \ / _` | '__| __| '_ ` _ \ / _ \ '_ \| __/ __| | "))
+	print(str("                    / ____ \| |_) | (_| | |  | |_| | | | | |  __/ | | | |_\__ \_| "))
+	print(str("                   /_/    \_\ .__/ \__,_|_|   \__|_| |_| |_|\___|_| |_|\__|___(_) "))
+	print(str("                            | |                                                   "))
+	print(str("                            |_|                                                   "))
+	print(str("                                                                                  "))
+	print(str("                                             BERGEN COUNTY                        \n"))

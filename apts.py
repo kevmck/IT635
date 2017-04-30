@@ -314,7 +314,7 @@ else:
 					dbCur.execute("select * from apt where aptnumber = '" + aptNum + "'")					
 			
 					if (dbCur.rowcount == 0):
-						print ("Apartment does not exist; cannot add to watchlist.")
+						print ("\nApartment does not exist; cannot add to watchlist.")
 					else:
 						print("\nShowing apartment #" + aptNum + "\n")
 						tableOut = from_db_cursor(dbCur)
@@ -325,7 +325,6 @@ else:
 							addConf = raw_input("Enter Y/N: ")
 						
 						if addConf.lower() == 'y':
-							print("\n")
 							mongoLib.watchListInsert(dbUsr, aptNum)
 							
 						else:
@@ -336,11 +335,12 @@ else:
 					os.system("clear")
 					pyLib.banner()
 					print("View watchlist\n")
+					print("Your current watchlist:\n")
 					listReturn = mongoLib.watchListFetch(dbUsr)
 					count = 1
 					
 					for i in listReturn.splitlines():
-						print(str(count) + ". " + i)
+						print(str(count) + ".\t" + i)
 						count+=1
 					
 					listDetail = raw_input("\nWould you like to view apartment details? ")
@@ -368,8 +368,16 @@ else:
 				elif watchMenu == '3':
 					os.system("clear")
 					pyLib.banner()
-					print("Delete apartment from watchlist")
-					aptNum = raw_input("Enter apartment number to delete: ")
+					print("Delete apartment from watchlist\n")
+					print("Your current watchlist:\n")
+					listReturn = mongoLib.watchListFetch(dbUsr)
+					count = 1
+					
+					for i in listReturn.splitlines():
+						print(str(count) + ".\t" + i)
+						count+=1
+					
+					aptNum = raw_input("\nEnter apartment number to delete: ")
 					mongoLib.watchListDelete(dbUsr, aptNum)
 				
 				#Add apartment notes.	
@@ -386,7 +394,7 @@ else:
 					os.system("clear")
 					pyLib.banner()
 					print("View notes")
-					aptNum = raw_input("Enter apartment number to view: ")
+					aptNum = raw_input("Enter apartment number, or view (a)ll: ")
 					mongoLib.noteFetch(dbUsr, aptNum)
 					
 				elif watchMenu == '6':
