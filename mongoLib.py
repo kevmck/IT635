@@ -15,25 +15,6 @@ else:
 
 
 db = client.it635
-"""
-def noteFetch(userName2, aptNum):
-	collection = db.IT635_notes
-	returnData = ""
-	param = {"username": userName2, "aptnum": aptNum}
-	resCount = (collection.find(param).count())
-	print(resCount)
-	
-	if (resCount == 0):
-		print "No notes found for the apartment number provided."
-		
-	else:
-		for item in collection.find(param):
-			apt = str(item.get("aptnum", None))
-			note = str(item.get("notes", None))
-			returnData = "Apartment: " + apt + "\nNotes: " + note + "\n\n"
-	
-	print(returnData)
-"""
 
 def noteFetch(userName2, aptNum):
 	collection = db.IT635_notes
@@ -48,7 +29,7 @@ def noteFetch(userName2, aptNum):
 		param = {"username": un, "aptnum": aptNum}
 	
 	resCount = (collection.find(param).count())
-	print(resCount)
+	print(str(resCount) + " note(s) found.")
 	
 	if (resCount == 0):
 		print "\nNo notes found for the apartment number provided."
@@ -62,16 +43,24 @@ def noteFetch(userName2, aptNum):
 	print(returnData)
 		
 def noteInsert(userName, userApt, userNote):
-	collection = db.IT635_notes
 	findNote = {"username": userName, "aptnum": userApt}
 	insertNote = {"username": userName, "aptnum": userApt, "notes": userNote}
-	noteCount = (collection.find(findNote).count())
+	collection = db.IT635_watchlist
+	listCheck = (collection.find(findNote).count())
 	
-	if (noteCount != 0):
-		print("A note for this apartment already exists.\nEdit or delete the note.")
+	if (listCheck != 0):
+		collection = db.IT635_notes
+		noteCount = (collection.find(findNote).count())
+		
+		if (noteCount != 0):
+			print("A note for this apartment already exists; edit or delete the note.")
+		
+		else:
+			insertProc = collection.insert_one(insertNote).inserted_id
+			print("\nNew note created for apartment #" + userApt + ".")
+	
 	else:
-		insertProc = collection.insert_one(insertNote).inserted_id
-		print("New note created for apartment #" + userApt + ".")
+		print("Apartment #" + userApt + " is not on your watchlist; cannot add note.")
 		
 def noteUpdate(userName, userApt, userNotes):
 	collection = db.IT635_notes
@@ -95,18 +84,25 @@ def noteDelete(userName, userApt):
 		print("Selected note deleted successfully.")
 	else:
 		print("No notes found for selected apartment.")
-	
-def watchListInsert(userName, userApt):
-	collection = db.IT635_watchlist
-	insertWatchList = {"username": userName, "aptnum": userApt}
-	listCheck = (collection.find(insertWatchList).count())
-	
-	if (listCheck == 0):
-		insertProc = collection.insert_one(insertWatchList).inserted_id
-		print("Successfully added Apt. #" + userApt + " to your watchlist.")
 		
+def noteList(userName):
+	collection = db.IT635_notes
+	listNotes = {"username": userName}
+	listNotesCount = (collection.find(listNotes).count())
+	printList = ""
+	count = 1
+	print("Current apartments with notes:\n")
+	
+	if (listNotesCount == 0):
+		print("No notes found.")
+
 	else:
-		print("This apartment is already on your watchlist.")
+		for note in collection.find().sort([("aptnum", 1)]):
+			apt = str(note.get("aptnum", None))
+			printList += str(count) + ".\t" + apt + "\n"
+			count += 1
+			
+	print(printList)
 		
 def watchListFetch(userName):
 
@@ -128,6 +124,18 @@ def watchListFetch(userName):
 				returnList = returnList + aptnum + "\n"
 	
 	return returnList
+	
+def watchListInsert(userName, userApt):
+	collection = db.IT635_watchlist
+	insertWatchList = {"username": userName, "aptnum": userApt}
+	listCheck = (collection.find(insertWatchList).count())
+	
+	if (listCheck == 0):
+		insertProc = collection.insert_one(insertWatchList).inserted_id
+		print("Successfully added Apt. #" + userApt + " to your watchlist.")
+		
+	else:
+		print("This apartment is already on your watchlist.")
 	
 def watchListDelete(userName, userApt):
 	collection = db.IT635_watchlist

@@ -129,12 +129,13 @@ if logChoice == '1':
 			minRent = pyLib.testNum(re, minRent)
 			maxRent = str(raw_input("Enter maximum rent range: "))
 			maxRent = pyLib.testNum(re, maxRent)
-			passWord = "'password'"
+			passWord = "password"
 			role = "'renter'"
 			dbCur.execute("SELECT * FROM renter  WHERE renteruname = " + userName)
 			if (dbCur.rowcount != 0):
 				print ("User/renter name already exists; try again.")
 			else:
+				passWord = '\'' + saltLib.setHash(userName[1:(int(len(userName) -1))], passWord) + '\''
 				pyLib.renterInsert(dbCur, db, userName, locSearch, stySearch, minRent, maxRent)
 				pyLib.userInsert(dbCur, db, userName, passWord, role)
 				print ("Successfully created profile for " + userName + "; they can sign in with the default password (password).")
@@ -146,6 +147,7 @@ if logChoice == '1':
 			print ("Apartment Search For Renter\n")
 			renterName = str(raw_input("Enter the renter's username: "))
 			dbCur.execute("select * from renter where renteruname = '" + renterName + "'")
+			
 			if (dbCur.rowcount == 0):
 				print ("User " + renterName + " does not exist. No results to show.")
 			else:
@@ -205,7 +207,26 @@ if logChoice == '1':
 				dbCur.execute("select * from apt where rentalstatus = 'v'")			
 				print ("\nVacant apartments: " + str(dbCur.rowcount) + "\n")			
 				tableOut = from_db_cursor(dbCur)
-				print(tableOut)	
+				print(tableOut)
+				
+		#Delete user
+		elif selection == '6':
+			os.system("clear")
+			pyLib.banner()
+			print ("Delete Renter\n")
+			renterName = str(raw_input("Enter the renter's username: "))
+			dbCur.execute("select * from renter where renteruname = '" + renterName + "'")
+			
+			if (dbCur.rowcount == 0):
+				print ("User " + renterName + " does not exist; no action taken.")
+			
+			else:
+				dbCur.execute("DELETE FROM user WHERE username = '" + renterName + "'")
+				db.commit()
+				dbCur.execute("DELETE FROM renter WHERE renteruname = '" + renterName + "'")
+				db.commit()
+				saltLib.deleteHash(renterName)
+				print("User " + renterName + " removed from system.")
 		
 		#Display menu
 		elif selection.lower() == 'm':
@@ -236,7 +257,7 @@ else:
 	os.system("clear")
 	pyLib.banner()
 	pyLib.menuRenter()
-	print("\n\nWelcome to Apartments!, " + dbUsr + ".")
+	print("\nWelcome to Apartments!, " + dbUsr + ".")
 
 	#Menu loop
 	while selection2:
@@ -310,7 +331,8 @@ else:
 					os.system("clear")
 					pyLib.banner()
 					print("Add apartment to watchlist")
-					aptNum = raw_input("Enter apartment number to add: ")
+					aptNum = raw_input("\nEnter apartment number to add: ")
+					aptNum = pyLib.testNum(re, aptNum)
 					dbCur.execute("select * from apt where aptnumber = '" + aptNum + "'")					
 			
 					if (dbCur.rowcount == 0):
@@ -378,6 +400,7 @@ else:
 						count+=1
 					
 					aptNum = raw_input("\nEnter apartment number to delete: ")
+					aptNum = pyLib.testNum(re, aptNum)
 					mongoLib.watchListDelete(dbUsr, aptNum)
 				
 				#Add apartment notes.	
@@ -385,32 +408,39 @@ else:
 					os.system("clear")
 					pyLib.banner()
 					print("Add a note")
-					aptNum = raw_input("Enter apartment number to update: ")
+					aptNum = raw_input("\nEnter apartment number to add: ")
+					aptNum = pyLib.testNum(re, aptNum)
 					note = raw_input("Enter notes: ")
 					mongoLib.noteInsert(dbUsr, aptNum, note)
 					
-				#View apartment notes.	
+				#View/edit apartment notes.	
 				elif watchMenu == '5':
 					os.system("clear")
 					pyLib.banner()
 					print("View notes")
-					aptNum = raw_input("Enter apartment number, or view (a)ll: ")
+					aptNum = raw_input("\nEnter apartment number, or view (a)ll: ")
 					mongoLib.noteFetch(dbUsr, aptNum)
 					
+					editCheck = raw_input("Would you like to edit a note? ")
+					while editCheck not in 'YyNn' or editCheck == "":
+						editCheck = raw_input("Enter Y/N: ")
+					
+					if editCheck.lower() == 'y':
+						aptNum = raw_input("Enter apartment number to update: ")
+						newNote = raw_input("Enter notes: ")
+						mongoLib.noteUpdate(dbUsr, aptNum, newNote)
+						
+					else:
+						pass
+				
+				#Delete apartment notes.	
 				elif watchMenu == '6':
 					os.system("clear")
 					pyLib.banner()
-					print("Update note")
-					aptNum = raw_input("Enter apartment number to update: ")
-					newNote = raw_input("Enter notes: ")
-					mongoLib.noteUpdate(dbUsr, aptNum, newNote)
-				
-				#Delete apartment notes.	
-				elif watchMenu == '7':
-					os.system("clear")
-					pyLib.banner()
 					print("Delete notes")
+					mongoLib.noteList(dbUsr)
 					aptNum = raw_input("Enter apartment number to delete: ")
+					aptNum = pyLib.testNum(re, aptNum)
 					mongoLib.noteDelete(dbUsr, aptNum)
 					
 				elif watchMenu == '99':

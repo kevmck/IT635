@@ -33,10 +33,20 @@ def setHash(user, pw):
 
 	with open ('salts.cfg', 'ab') as configfile:
 		config.write(configfile)
-	
 
 	hash_object = hashlib.sha512(str(passwd))
 	hex_dig = hash_object.hexdigest()
 	pw = hex_dig
 	
 	return pw
+	
+#Delete a hash if user is removed from the system.
+def deleteHash(user):
+	
+	config = ConfigParser.ConfigParser()
+	config.read('salts.cfg')
+	
+	config.remove_section(str(user))
+	
+	with open ('salts.cfg', 'w') as configfile:
+		config.write(configfile)

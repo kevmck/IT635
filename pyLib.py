@@ -135,6 +135,7 @@ def menuSys():
 			\n3.\tRun apartment search for renter... \
 			\n4.\tUpdate status of rental... \
 			\n5.\tGenerate rental report... \
+			\n6.\tDelete user...\
 			\n99.\tLogout")
 
 #Renter's menu
@@ -144,7 +145,7 @@ def menuRenter():
 			\n2.\tUpdate location... \
 			\n3.\tUpdate style... \
 			\n4.\tUpdate minimum/maximum rent... \
-			\n5.\tApartment watchlist... \
+			\n5.\tApartment Watchlist... \
 			\n99.\tLogout")
 			
 #Renter's watchlist submenu
@@ -155,8 +156,7 @@ def watchListMenu():
 			\n3.\tDelete apartment from watchlist... \
 			\n4.\tAdd a note... \
 			\n5.\tView notes...	\
-			\n6.\tEdit note... \
-			\n7.\tDelete note... \
+			\n6.\tDelete note... \
 			\n99.\tReturn to main menu...")
 
 #Login menu
