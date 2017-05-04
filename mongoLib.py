@@ -29,10 +29,11 @@ def noteFetch(userName2, aptNum):
 		param = {"username": un, "aptnum": aptNum}
 	
 	resCount = (collection.find(param).count())
-	print(str(resCount) + " note(s) found.")
+	print("\n" + str(resCount) + " note(s) found.")
 	
 	if (resCount == 0):
 		print "\nNo notes found for the apartment number provided."
+		return resCount
 		
 	else:
 		for item in collection.find(param):
@@ -41,10 +42,12 @@ def noteFetch(userName2, aptNum):
 			returnData += "\nApartment: " + apt + "\nNotes: " + note + "\n"
 	
 	print(returnData)
+	return resCount
 		
-def noteInsert(userName, userApt, userNote):
+def noteInsert(userName, userApt):
 	findNote = {"username": userName, "aptnum": userApt}
-	insertNote = {"username": userName, "aptnum": userApt, "notes": userNote}
+	#insertNote = {"username": userName, "aptnum": userApt, "notes": userNote}
+	insertNote = ""
 	collection = db.IT635_watchlist
 	listCheck = (collection.find(findNote).count())
 	
@@ -56,11 +59,13 @@ def noteInsert(userName, userApt, userNote):
 			print("A note for this apartment already exists; edit or delete the note.")
 		
 		else:
+			userNote = raw_input("Enter notes: ")
+			insertNote = {"username": userName, "aptnum": userApt, "notes": userNote}
 			insertProc = collection.insert_one(insertNote).inserted_id
 			print("\nNew note created for apartment #" + userApt + ".")
 	
 	else:
-		print("Apartment #" + userApt + " is not on your watchlist; cannot add note.")
+		print("\nApartment #" + userApt + " is not on your watchlist; cannot add note.")
 		
 def noteUpdate(userName, userApt, userNotes):
 	collection = db.IT635_notes

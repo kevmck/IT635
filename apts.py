@@ -360,31 +360,36 @@ else:
 					print("Your current watchlist:\n")
 					listReturn = mongoLib.watchListFetch(dbUsr)
 					count = 1
+					listDetail = ""
 					
-					for i in listReturn.splitlines():
-						print(str(count) + ".\t" + i)
-						count+=1
-					
-					listDetail = raw_input("\nWould you like to view apartment details? ")
-					
-					while listDetail not in 'YyNn' or listDetail == "":
-						listDetail = raw_input("Enter Y/N: ")
-					
-					listQuery = "SELECT * from apt where aptnumber = '"
-					
-					if listDetail.lower() == "y":
-						print("\nDetailed Watchlist\n")
-						
-						for j in listReturn.splitlines():
-							listQuery += (j + "' OR aptnumber = '")
-						
-						listQuery = listQuery[:-17]
-						dbCur.execute(listQuery)		
-						tableOut = from_db_cursor(dbCur)
-						print(tableOut)
+					if listReturn == "No apartments are currently in your watchlist.":
+						print(listReturn)
 						
 					else:
-						pass						
+						for i in listReturn.splitlines():
+							print(str(count) + ".\t" + i)
+							count+=1
+					
+						listDetail = raw_input("\nWould you like to view apartment details? ")
+					
+						while listDetail not in 'YyNn' or listDetail == "":
+							listDetail = raw_input("Enter Y/N: ")
+					
+						listQuery = "SELECT * from apt where aptnumber = '"
+					
+						if listDetail.lower() == "y":
+							print("\nDetailed Watchlist\n")
+						
+							for j in listReturn.splitlines():
+								listQuery += (j + "' OR aptnumber = '")
+						
+							listQuery = listQuery[:-17]
+							dbCur.execute(listQuery)		
+							tableOut = from_db_cursor(dbCur)
+							print(tableOut)
+						
+						else:
+							pass						
 					
 				#Delete apartment from watchlist.
 				elif watchMenu == '3':
@@ -395,13 +400,17 @@ else:
 					listReturn = mongoLib.watchListFetch(dbUsr)
 					count = 1
 					
-					for i in listReturn.splitlines():
-						print(str(count) + ".\t" + i)
-						count+=1
+					if listReturn == "No apartments are currently in your watchlist.":
+						print listReturn
 					
-					aptNum = raw_input("\nEnter apartment number to delete: ")
-					aptNum = pyLib.testNum(re, aptNum)
-					mongoLib.watchListDelete(dbUsr, aptNum)
+					else:
+						for i in listReturn.splitlines():
+							print(str(count) + ".\t" + i)
+							count+=1
+					
+						aptNum = raw_input("\nEnter apartment number to delete: ")
+						aptNum = pyLib.testNum(re, aptNum)
+						mongoLib.watchListDelete(dbUsr, aptNum)
 				
 				#Add apartment notes.	
 				elif watchMenu == '4':
@@ -410,8 +419,8 @@ else:
 					print("Add a note")
 					aptNum = raw_input("\nEnter apartment number to add: ")
 					aptNum = pyLib.testNum(re, aptNum)
-					note = raw_input("Enter notes: ")
-					mongoLib.noteInsert(dbUsr, aptNum, note)
+					#note = raw_input("Enter notes: ")
+					mongoLib.noteInsert(dbUsr, aptNum)
 					
 				#View/edit apartment notes.	
 				elif watchMenu == '5':
@@ -419,17 +428,21 @@ else:
 					pyLib.banner()
 					print("View notes")
 					aptNum = raw_input("\nEnter apartment number, or view (a)ll: ")
-					mongoLib.noteFetch(dbUsr, aptNum)
+					noteCount = mongoLib.noteFetch(dbUsr, aptNum)
 					
-					editCheck = raw_input("Would you like to edit a note? ")
-					while editCheck not in 'YyNn' or editCheck == "":
-						editCheck = raw_input("Enter Y/N: ")
+					if noteCount != 0:
+						editCheck = raw_input("Would you like to edit a note? ")
+						while editCheck not in 'YyNn' or editCheck == "":
+							editCheck = raw_input("Enter Y/N: ")
 					
-					if editCheck.lower() == 'y':
-						aptNum = raw_input("Enter apartment number to update: ")
-						newNote = raw_input("Enter notes: ")
-						mongoLib.noteUpdate(dbUsr, aptNum, newNote)
+						if editCheck.lower() == 'y':
+							aptNum = raw_input("Enter apartment number to update: ")
+							newNote = raw_input("Enter notes: ")
+							mongoLib.noteUpdate(dbUsr, aptNum, newNote)
 						
+						else:
+							pass
+							
 					else:
 						pass
 				
