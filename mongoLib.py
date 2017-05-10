@@ -7,10 +7,10 @@ r = os.system("ping -q -c 1 ds155820.mlab.com")
 #Test connection to mLab before attempting to execute queries.
 #This test can be removed before the final, or if it causes unexpected results.
 if (r == 0):
-	print("\nConnection to mLab successful!\n")
+	print("Connection to mLab successful!\n")
 	client = MongoClient('mongodb://admin:password@ds155820.mlab.com:55820/it635')
 else:
-	print "\nmLab connection failed - check internet connection."
+	print "mLab connection failed - check internet connection."
 	sys.exit()
 
 
@@ -88,7 +88,7 @@ def noteDelete(userName, userApt):
 		deleteProc = collection.remove(deleteNote)
 		print("Selected note deleted successfully.")
 	else:
-		print("No notes found for selected apartment.")
+		print("No notes found for selected apartment; no changes made.")
 		
 def noteList(userName):
 	collection = db.IT635_notes
@@ -100,14 +100,16 @@ def noteList(userName):
 	
 	if (listNotesCount == 0):
 		print("No notes found.")
+		return 0
 
 	else:
-		for note in collection.find().sort([("aptnum", 1)]):
+		for note in collection.find(listNotes).sort([("aptnum", 1)]):
 			apt = str(note.get("aptnum", None))
 			printList += str(count) + ".\t" + apt + "\n"
 			count += 1
 			
 	print(printList)
+	return 1
 		
 def watchListFetch(userName):
 

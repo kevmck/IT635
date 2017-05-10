@@ -330,7 +330,7 @@ else:
 				if watchMenu == '1':
 					os.system("clear")
 					pyLib.banner()
-					print("Add apartment to watchlist")
+					print("Add Apartment to Watchlist")
 					aptNum = raw_input("\nEnter apartment number to add: ")
 					aptNum = pyLib.testNum(re, aptNum)
 					dbCur.execute("select * from apt where aptnumber = '" + aptNum + "'")					
@@ -356,7 +356,7 @@ else:
 				elif watchMenu == '2':
 					os.system("clear")
 					pyLib.banner()
-					print("View watchlist\n")
+					print("View Watchlist\n")
 					print("Your current watchlist:\n")
 					listReturn = mongoLib.watchListFetch(dbUsr)
 					count = 1
@@ -395,7 +395,7 @@ else:
 				elif watchMenu == '3':
 					os.system("clear")
 					pyLib.banner()
-					print("Delete apartment from watchlist\n")
+					print("Delete Apartment from Watchlist\n")
 					print("Your current watchlist:\n")
 					listReturn = mongoLib.watchListFetch(dbUsr)
 					count = 1
@@ -416,45 +416,52 @@ else:
 				elif watchMenu == '4':
 					os.system("clear")
 					pyLib.banner()
-					print("Add a note")
-					aptNum = raw_input("\nEnter apartment number to add: ")
-					aptNum = pyLib.testNum(re, aptNum)
-					#note = raw_input("Enter notes: ")
-					mongoLib.noteInsert(dbUsr, aptNum)
+					print("Add a Note")
+					v = mongoLib.noteList(dbUsr)
+					
+					if v == 1:
+						aptNum = raw_input("\nEnter apartment number to add note to: ")
+						aptNum = pyLib.testNum(re, aptNum)
+						mongoLib.noteInsert(dbUsr, aptNum)
 					
 				#View/edit apartment notes.	
 				elif watchMenu == '5':
 					os.system("clear")
 					pyLib.banner()
-					print("View notes")
-					aptNum = raw_input("\nEnter apartment number, or view (a)ll: ")
-					noteCount = mongoLib.noteFetch(dbUsr, aptNum)
+					print("View Notes")
+					v = mongoLib.noteList(dbUsr)
 					
-					if noteCount != 0:
-						editCheck = raw_input("Would you like to edit a note? ")
-						while editCheck not in 'YyNn' or editCheck == "":
-							editCheck = raw_input("Enter Y/N: ")
+					if v == 1:
+						aptNum = raw_input("Enter apartment number, or view (a)ll: ")
+						noteCount = mongoLib.noteFetch(dbUsr, aptNum)
 					
-						if editCheck.lower() == 'y':
-							aptNum = raw_input("Enter apartment number to update: ")
-							newNote = raw_input("Enter notes: ")
-							mongoLib.noteUpdate(dbUsr, aptNum, newNote)
+						if noteCount != 0:
+							editCheck = raw_input("Would you like to edit a note? ")
+							while editCheck not in 'YyNn' or editCheck == "":
+								editCheck = raw_input("Enter Y/N: ")
+					
+							if editCheck.lower() == 'y':
+								aptNum = raw_input("Enter apartment number to update: ")
+								newNote = raw_input("Enter notes: ")
+								mongoLib.noteUpdate(dbUsr, aptNum, newNote)
 						
+							else:
+								pass
+							
 						else:
 							pass
-							
-					else:
-						pass
 				
 				#Delete apartment notes.	
 				elif watchMenu == '6':
 					os.system("clear")
 					pyLib.banner()
-					print("Delete notes")
-					mongoLib.noteList(dbUsr)
-					aptNum = raw_input("Enter apartment number to delete: ")
-					aptNum = pyLib.testNum(re, aptNum)
-					mongoLib.noteDelete(dbUsr, aptNum)
+					print("Delete Notes")
+					v = mongoLib.noteList(dbUsr)
+					
+					if v ==1:
+						aptNum = raw_input("Enter apartment number to delete: ")
+						aptNum = pyLib.testNum(re, aptNum)
+						mongoLib.noteDelete(dbUsr, aptNum)
 					
 				elif watchMenu == '99':
 					os.system("clear")
